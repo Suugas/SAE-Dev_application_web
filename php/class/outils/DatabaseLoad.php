@@ -45,6 +45,14 @@ class DatabaseLoad {
     }
 
     //recuprer touite utilisateur
+    public function getTouitesUtilisateur(int $page, string $email):array{
+        $query = "Select *
+            from touite
+            where email like ':email'
+            Order by date_publication
+            limit 50 offset 50*:page;"
+    }
+
     // Recuperer followers et followed
     // recuperer tag follow
     // Recuperer 1 touite
