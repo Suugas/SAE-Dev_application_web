@@ -1,5 +1,5 @@
 <?php
-
+namespace touiteur\objets;
 class Utilisateur
 {
     public string $nom;
@@ -11,14 +11,19 @@ class Utilisateur
     }
 
     // Renvoie une liste des utilisateurs ayant follow ce profil
-    public function getFollowers(): array {
+    private function getFollowers(): array {
         // Requete sql
         return array();
     }
 
     // Renvoie une liste des utilisateurs que follow ce profil
-    public function getFollowed(): array {
+    private function getFollowed(): array
+    {
         // Requete sql
         return array();
+    }
+
+    public function to_html(): string{
+        return "";
     }
 }
