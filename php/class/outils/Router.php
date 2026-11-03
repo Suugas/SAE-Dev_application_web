@@ -20,10 +20,9 @@ class Router
 
     public function run(): string
     {
-        // si $this→action est présent dans $this→actions
-        // instancier la classe correspondante et appeler la méthode
-        // execute()
-        // sinon
+        switch ($this->action) {
+            case 'default':
+        }
 
         throw new \RouterException("Action '{$this->action}' not found");
     }
