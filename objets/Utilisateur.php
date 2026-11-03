@@ -26,4 +26,8 @@ class Utilisateur
     public function to_html(): string{
         return "";
     }
+
+    public function affichage(): string {
+        return "Utilisateur : " . $this->nom;
+    }
 }
