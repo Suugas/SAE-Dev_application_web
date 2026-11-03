@@ -1,5 +1,5 @@
 <?php
-namespace touiteur\src\affichage;
+namespace touiteur\affichage;
 use touiteur\objets\Utilisateur;
 
 class AffichageUtilisateur
@@ -11,7 +11,7 @@ class AffichageUtilisateur
     }
 
     public function afficherPageUtilisateur(): string{
-        $res = '<div id="profil_user"> <h1>' . $utilisateur . '</h1></div>';
+        $res = '<div id="profil_user"> <h1>' . $this->utilisateur->nom . '</h1></div>';
         return $res;
     }
 }
