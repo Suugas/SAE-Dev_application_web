@@ -56,6 +56,22 @@ class DatabaseLoad {
             return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function AddUser(string $email, string $nom, string $prenom):void{
+        $query = "Insert into utilisateur(email, nom, prenom)
+            values(:email, :nom, :prenom);";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['email'=>$email, 'nom'=>$nom, 'prenom'=>$prenom]);
+    }
+
+    //getUtilisateur
+    public function getUser(string $email):array{
+        $query = "Select email from utilisateur where email like ':email'";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['email' =>$email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
     //envoyer un touoit
     // Recuperer followers et followed
 
@@ -63,7 +79,6 @@ class DatabaseLoad {
     // recuperer tag follow
     // Recuperer 1 touite
     //
-    //getUtilisateur
     // ajouter touite
     // liker touite
 }
