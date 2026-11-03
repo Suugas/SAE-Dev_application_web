@@ -1,6 +1,6 @@
 <?php
 
-namespace objets;
+namespace touiteur\class\objets;
 
 class Tag
 {
