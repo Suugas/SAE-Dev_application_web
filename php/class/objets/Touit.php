@@ -18,11 +18,9 @@ class Touit
 //envoyer un touit
     public function addTouit($touit)
     {
-        // IDMessage n'est pas auto-incrémenté : on prend le numéro suivant
         $requete = $this->bdd->prepare(
-            'INSERT INTO touite (IDMessage, Message, DateMessage)
-         SELECT COALESCE(MAX(IDMessage), 0) + 1, :message, CURDATE()
-         FROM touite'
+            'INSERT INTO touite (Message, DateMessage)
+         VALUES (:message, CURDATE())'
         );
 
         return $requete->execute(['message' => $touit]);
