@@ -1,13 +1,18 @@
 <?php
 namespace touiteur\class\objets;
+use touiteur\class\outils\DatabaseLoad;
 class Utilisateur
 {
+    public string $prenom;
     public string $nom;
-    public string $pp;
+    public string $mail;
+    public int $nbTouit;
 
-    public function __construct(string $nom, string $pp){
+    public function __construct(string $prenom, string $nom, string $mail, int $nbTouit){
+        $this->prenom = $prenom;
         $this->nom = $nom;
-        $this->pp = $pp;
+        $this->mail = $mail;
+        $this->nbTouit = $nbTouit;
     }
 
     // Renvoie une liste des utilisateurs ayant follow ce profil
@@ -29,5 +34,11 @@ class Utilisateur
 
     public function affichage(): string {
         return "Utilisateur : " . $this->nom;
+    }
+
+    public function addUtilisateur()
+    {
+        $db = DadabaseLoad::getInstance();
+        $db->addUser($this->mail, $this->nom, $this->prenom);
     }
 }
