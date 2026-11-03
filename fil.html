@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Touit - Fil</title>
+    <style>
+        :root {
+            --bleu: #1d9bf0;
+            --bleu-fonce: #1a8cd8;
+            --bleu-clair: #e8f5fd;
+            --rose: #f91880;
+            --rose-clair: #fce8f3;
+            --jaune: #ffad1f;
+            --jaune-clair: #fff4dc;
+            --fond: #ffffff;
+            --fond-secondaire: #f7f9f9;
+            --survol: #eff3f4;
+            --bordure: #eff3f4;
+            --texte: #0f1419;
+            --texte-secondaire: #536471;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--fond);
+            color: var(--texte);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        textarea,
+        input {
+            font: inherit;
+        }
+
+        button {
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+        }
+
+        .page {
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* Colonne de gauche : navigation */
+        .navigation {
+            flex: 0 0 275px;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            padding: 0 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            margin: 4px 0 4px 12px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--bleu);
+        }
+
+        .logo:hover {
+            background: var(--bleu-clair);
+        }
+
+        .lien-nav {
+            width: fit-content;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px;
+            margin: 2px 0;
+            border-radius: 9999px;
+            font-size: 20px;
+        }
+
+        .lien-nav:hover {
+            background: var(--fond-secondaire);
+        }
+
+        .lien-nav.actif {
+            font-weight: 700;
+        }
+
+        .bouton-touiter {
+            display: block;
+            margin-top: 16px;
+            padding: 14px 0;
+            border-radius: 9999px;
+            background: var(--bleu);
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .bouton-touiter:hover {
+            background: var(--bleu-fonce);
+        }
+
+        .bouton-touiter svg {
+            display: none;
+        }
+
+        .profil-nav {
+            margin-top: auto;
+            margin-bottom: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-radius: 9999px;
+        }
+
+        .profil-nav:hover {
+            background: var(--fond-secondaire);
+        }
+
+        .profil-nav .nom {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .profil-nav .pseudo {
+            font-size: 15px;
+            color: var(--texte-secondaire);
+        }
+
+        /* Avatars */
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .av-1 { background: linear-gradient(135deg, #7856ff, #c86dd7); }
+        .av-2 { background: linear-gradient(135deg, #1d9bf0, #00ba7c); }
+        .av-3 { background: linear-gradient(135deg, #f91880, #ff7a00); }
+        .av-4 { background: linear-gradient(135deg, #00ba7c, #0b7a5e); }
+        .av-5 { background: linear-gradient(135deg, #ffad1f, #f4212e); }
+
+        /* Colonne centrale : fil */
+        .fil {
+            flex: 0 1 600px;
+            min-width: 0;
+            min-height: 100vh;
+            border-left: 1px solid var(--bordure);
+            border-right: 1px solid var(--bordure);
+        }
+
+        .entete {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--bordure);
+        }
+
+        .entete h1 {
+            padding: 12px 16px;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .onglets {
+            display: flex;
+        }
+
+        .onglet {
+            position: relative;
+            flex: 1;
+            padding: 16px 0;
+            text-align: center;
+            font-weight: 500;
+            color: var(--texte-secondaire);
+        }
+
+        .onglet:hover {
+            background: var(--fond-secondaire);
+        }
+
+        .onglet.actif {
+            font-weight: 700;
+            color: var(--texte);
+        }
+
+        .onglet.actif::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 56px;
+            height: 4px;
+            border-radius: 9999px;
+            background: var(--bleu);
+        }
+
+        /* Zone de rédaction */
+        .composer {
+            display: flex;
+            gap: 12px;
+            padding: 12px 16px;
+            border-bottom: 8px solid var(--fond-secondaire);
+        }
+
+        .composer-droite {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .composer textarea {
+            width: 100%;
+            min-height: 90px;
+            padding-top: 8px;
+            border: none;
+            outline: none;
+            resize: none;
+            font-size: 20px;
+            color: var(--texte);
+            background: none;
+        }
+
+        .composer textarea::placeholder {
+            color: var(--texte-secondaire);
+        }
+
+        .composer-bas {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 8px;
+            border-top: 1px solid var(--bordure);
+        }
+
+        .outils button {
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            color: var(--bleu);
+        }
+
+        .outils button:hover {
+            background: var(--bleu-clair);
+        }
+
+        .compteur {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--texte-secondaire);
+        }
+
+        .publier {
+            padding: 8px 16px;
+            border-radius: 9999px;
+            background: var(--bleu);
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        /* Touits */
+        .touit {
+            display: flex;
+            gap: 12px;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--bordure);
+        }
+
+        .touit:hover {
+            background: var(--fond-secondaire);
+        }
+
+        .touit-corps {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .touit-entete {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px;
+            font-size: 15px;
+            color: var(--texte-secondaire);
+        }
+
+        .touit-entete .nom {
+            font-weight: 700;
+            color: var(--texte);
+        }
+
+        .touit-texte {
+            margin-top: 4px;
+            font-size: 15px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .mot-cle {
+            color: var(--bleu);
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            max-width: 425px;
+            margin-top: 12px;
+            color: var(--texte-secondaire);
+        }
+
+        .action {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 8px;
+            border-radius: 9999px;
+            font-size: 13px;
+        }
+
+        .action.commenter:hover {
+            color: var(--bleu);
+            background: var(--bleu-clair);
+        }
+
+        .action.liker:hover,
+        .action.liker.actif {
+            color: var(--rose);
+        }
+
+        .action.liker:hover {
+            background: var(--rose-clair);
+        }
+
+        .action.liker.actif svg {
+            fill: currentColor;
+        }
+
+        .action.noter:hover {
+            color: var(--jaune);
+            background: var(--jaune-clair);
+        }
+
+        .action.noter:hover svg {
+            fill: currentColor;
+        }
+
+        /* Colonne de droite : recherche et suggestions */
+        .droite {
+            flex: 0 0 350px;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            padding: 8px 24px 0;
+        }
+
+        .recherche {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border: 1px solid transparent;
+            border-radius: 9999px;
+            background: var(--fond-secondaire);
+            color: var(--texte-secondaire);
+        }
+
+        .recherche:focus-within {
+            border-color: var(--bleu);
+            background: var(--fond);
+        }
+
+        .recherche input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: none;
+            color: var(--texte);
+        }
+
+        .carte {
+            margin-top: 16px;
+            border-radius: 16px;
+            background: var(--fond-secondaire);
+            overflow: hidden;
+        }
+
+        .carte h2 {
+            padding: 12px 16px;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .tendance {
+            display: block;
+            padding: 12px 16px;
+        }
+
+        .tendance:hover,
+        .suggestion:hover {
+            background: var(--survol);
+        }
+
+        .tendance .categorie,
+        .tendance .nombre {
+            font-size: 13px;
+            color: var(--texte-secondaire);
+        }
+
+        .tendance .sujet {
+            margin: 2px 0;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .suggestion {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+        }
+
+        .suggestion .infos {
+            flex: 1;
+            min-width: 0;
+            line-height: 1.3;
+        }
+
+        .suggestion .nom {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .suggestion .pseudo {
+            font-size: 15px;
+            color: var(--texte-secondaire);
+        }
+
+        .bouton-suivre {
+            padding: 8px 16px;
+            border-radius: 9999px;
+            background: var(--texte);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .bouton-suivre:hover {
+            background: #272c30;
+        }
+
+        .voir-plus {
+            display: block;
+            padding: 16px;
+            font-size: 15px;
+            color: var(--bleu);
+        }
+
+        .voir-plus:hover {
+            background: var(--survol);
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <nav class="navigation">
+            <a href="#" class="logo" aria-label="Accueil">T</a>
+
+            <a href="#" class="lien-nav actif">
+                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span class="libelle">Accueil</span>
+            </a>
+            <a href="#" class="lien-nav">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <span class="libelle">Explorer</span>
+            </a>
+            <a href="#" class="lien-nav">
+                <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                <span class="libelle">Notifications</span>
+            </a>
+            <a href="#" class="lien-nav">
+                <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span class="libelle">Messages</span>
+            </a>
+            <a href="#" class="lien-nav">
+                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span class="libelle">Profil</span>
+            </a>
+
+            <a href="#" class="bouton-touiter">
+                <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+                <span>Touiter</span>
+            </a>
+
+            <a href="#" class="profil-nav">
+                <div class="avatar av-1">MC</div>
+                <div class="infos">
+                    <div class="nom">Mon compte</div>
+                    <div class="pseudo">@mon_pseudo</div>
+                </div>
+            </a>
+        </nav>
+
+        <main class="fil">
+            <header class="entete">
+                <h1>Accueil</h1>
+                <div class="onglets">
+                    <a href="#" class="onglet actif">Pour vous</a>
+                    <a href="#" class="onglet">Abonnements</a>
+                </div>
+            </header>
+
+            <section class="composer">
+                <div class="avatar av-1">MC</div>
+                <div class="composer-droite">
+                    <textarea maxlength="250" placeholder="Quoi de neuf ?"></textarea>
+                    <div class="composer-bas">
+                        <div class="outils">
+                            <button type="button" aria-label="Ajouter une image">
+                                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            </button>
+                        </div>
+                        <div class="compteur">
+                            <span>0 / 250</span>
+                            <button type="button" id="envoyer" class="publier">Touiter</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <article class="touit">
+                <div class="avatar av-1">AM</div>
+                <div class="touit-corps">
+                    <div class="touit-entete">
+                        <span class="nom">Alice Martin</span>
+                        <span>@alice_m</span>
+                        <span>·</span>
+                        <span>3 nov.</span>
+                    </div>
+                    <p class="touit-texte">Premier test de mon interface Touit, ça commence à ressembler à quelque chose ! 🚀</p>
+                    <div class="actions">
+                        <button type="button" class="action commenter">
+                            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            <span>2</span>
+                        </button>
+                        <button type="button" class="action liker">
+                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            <span>24</span>
+                        </button>
+                        <button type="button" class="action noter">
+                            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <span>4.5</span>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="touit">
+                <div class="avatar av-2">MD</div>
+                <div class="touit-corps">
+                    <div class="touit-entete">
+                        <span class="nom">Marc Dupont</span>
+                        <span>@marc_dup</span>
+                        <span>·</span>
+                        <span>2 nov.</span>
+                    </div>
+                    <p class="touit-texte">Quelqu'un a déjà testé la base pool34 sur phpMyAdmin ? Les tables admin et follows sont vides chez moi.</p>
+                    <div class="actions">
+                        <button type="button" class="action commenter">
+                            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            <span>1</span>
+                        </button>
+                        <button type="button" class="action liker">
+                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            <span>7</span>
+                        </button>
+                        <button type="button" class="action noter">
+                            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <span>3.8</span>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="touit">
+                <div class="avatar av-3">SL</div>
+                <div class="touit-corps">
+                    <div class="touit-entete">
+                        <span class="nom">Sophie Leroy</span>
+                        <span>@sophie.l</span>
+                        <span>·</span>
+                        <span>2 nov.</span>
+                    </div>
+                    <p class="touit-texte">Le mode sombre, ce serait pas mal pour le prochain sprint. <span class="mot-cle">#SAE</span> <span class="mot-cle">#web</span></p>
+                    <div class="actions">
+                        <button type="button" class="action commenter">
+                            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            <span>12</span>
+                        </button>
+                        <button type="button" class="action liker actif">
+                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            <span>58</span>
+                        </button>
+                        <button type="button" class="action noter">
+                            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <span>4.9</span>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="touit">
+                <div class="avatar av-4">TB</div>
+                <div class="touit-corps">
+                    <div class="touit-entete">
+                        <span class="nom">Thomas B.</span>
+                        <span>@tom_b</span>
+                        <span>·</span>
+                        <span>31 oct.</span>
+                    </div>
+                    <p class="touit-texte">Un touit fait 250 caractères maximum, pas un de plus. Le design doit tenir sur mobile aussi !</p>
+                    <div class="actions">
+                        <button type="button" class="action commenter">
+                            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            <span>3</span>
+                        </button>
+                        <button type="button" class="action liker">
+                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            <span>12</span>
+                        </button>
+                        <button type="button" class="action noter">
+                            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <span>4.0</span>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="touit">
+                <div class="avatar av-5">CR</div>
+                <div class="touit-corps">
+                    <div class="touit-entete">
+                        <span class="nom">Camille R.</span>
+                        <span>@cam_r</span>
+                        <span>·</span>
+                        <span>31 oct.</span>
+                    </div>
+                    <p class="touit-texte">Petite pause café avant de coder le formulaire d'inscription ☕</p>
+                    <div class="actions">
+                        <button type="button" class="action commenter">
+                            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            <span>0</span>
+                        </button>
+                        <button type="button" class="action liker">
+                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            <span>3</span>
+                        </button>
+                        <button type="button" class="action noter">
+                            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <span>2.5</span>
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <aside class="droite">
+            <label class="recherche">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" placeholder="Rechercher sur Touit">
+            </label>
+
+            <section class="carte">
+                <h2>Tendances</h2>
+                <a href="#" class="tendance">
+                    <div class="categorie">Tendance en France</div>
+                    <div class="sujet">#SAE</div>
+                    <div class="nombre">1 254 touits</div>
+                </a>
+                <a href="#" class="tendance">
+                    <div class="categorie">Informatique · Tendance</div>
+                    <div class="sujet">#pool34</div>
+                    <div class="nombre">486 touits</div>
+                </a>
+                <a href="#" class="tendance">
+                    <div class="categorie">Développement web</div>
+                    <div class="sujet">#phpMyAdmin</div>
+                    <div class="nombre">212 touits</div>
+                </a>
+                <a href="#" class="tendance">
+                    <div class="categorie">Tendance</div>
+                    <div class="sujet">PHP</div>
+                    <div class="nombre">98 touits</div>
+                </a>
+                <a href="#" class="voir-plus">Afficher plus</a>
+            </section>
+
+            <section class="carte">
+                <h2>Qui suivre</h2>
+                <div class="suggestion">
+                    <div class="avatar av-2">PL</div>
+                    <div class="infos">
+                        <div class="nom">Pauline Lambert</div>
+                        <div class="pseudo">@pauline_l</div>
+                    </div>
+                    <button type="button" class="bouton-suivre">Suivre</button>
+                </div>
+                <div class="suggestion">
+                    <div class="avatar av-3">KN</div>
+                    <div class="infos">
+                        <div class="nom">Karim N.</div>
+                        <div class="pseudo">@karim_n</div>
+                    </div>
+                    <button type="button" class="bouton-suivre">Suivre</button>
+                </div>
+                <a href="#" class="voir-plus">Afficher plus</a>
+            </section>
+        </aside>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
