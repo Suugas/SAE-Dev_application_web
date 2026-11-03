@@ -35,7 +35,7 @@ class DatabaseLoad {
     }
 
     public function getTouites(int $page):array{
-        $query = "Select *
+        $query = "Select text, date_publication, email, cheminfichier
             from touite
             Order by date_publication
             limit 50 offset 50*:page;";
@@ -46,15 +46,24 @@ class DatabaseLoad {
 
     //recuprer touite utilisateur
     public function getTouitesUtilisateur(int $page, string $email):array{
-        $query = "Select *
+        $query = "Select text, date_publication, email, cheminfichier
             from touite
             where email like ':email'
             Order by date_publication
-            limit 50 offset 50*:page;"
+            limit 50 offset 50*:page;";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute(['page' => $page, 'email'=>$email]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    //envoyer un touoit
     // Recuperer followers et followed
+
+
     // recuperer tag follow
     // Recuperer 1 touite
     //
+    //getUtilisateur
+    // ajouter touite
+    // liker touite
 }
