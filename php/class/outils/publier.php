@@ -1,7 +1,7 @@
 <?php
 
 require_once 'connexion.php';
-require_once 'Touit.php';
+require_once 'objets/Touit.php';
 
 header('Content-Type: application/json');
 
