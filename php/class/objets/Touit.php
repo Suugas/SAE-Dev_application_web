@@ -1,6 +1,6 @@
 <?php
 
-namespace objets;
+namespace touiter\class\objets;
 require_once 'connexion.php';
 
 
