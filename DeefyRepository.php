@@ -33,23 +33,4 @@ class DeefyRepository {
     {
         self::$config = parse_ini_file($file);
     }
-
-    public function AddName():void {
-        $stmt = $this->pdo->prepare("Insert into utilisateur (Pseudo)
-        values('Bob')");
-        $stmt->execute();
-    }
-
-    public function GetName(): array{
-        $stmt = $this->pdo->prepare("Select Pseudo from utilisateur where Pseudo like 'Bob'");
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result;
-    }
-
 }
-
-DeefyRepository::setConfig("db.config.ini");
-$d = DeefyRepository::getInstance();
-$d->AddName();
-echo $d->GetName()['Pseudo'];
