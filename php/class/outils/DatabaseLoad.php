@@ -56,7 +56,7 @@ class DatabaseLoad {
             return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function AddUser(string $email, string $nom, string $prenom):void{
+    public function addUser(string $email, string $nom, string $prenom):void{
         $query = "Insert into utilisateur(email, nom, prenom)
             values(:email, :nom, :prenom);";
         $stmt = $this->pdo->prepare($query);
