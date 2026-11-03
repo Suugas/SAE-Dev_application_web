@@ -1,6 +1,6 @@
 <?php
 
-namespace touiteur\affichage;
+namespace affichage;
 
 class AffichageTagPage
 {

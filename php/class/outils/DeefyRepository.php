@@ -1,6 +1,10 @@
 <?php
 
-class DeefyRepository {
+namespace touiteur\class\outils;
+
+use PDO;
+class DeefyRepository
+{
 
     protected static ?array $config = null;
     protected static ?DeefyRepository $instance = null;

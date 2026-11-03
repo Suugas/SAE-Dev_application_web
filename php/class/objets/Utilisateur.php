@@ -1,5 +1,5 @@
 <?php
-namespace touiteur\objets;
+namespace touiteur\class\objets;
 class Utilisateur
 {
     public string $nom;

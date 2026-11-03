@@ -1,6 +1,7 @@
 <?php
-namespace touiteur\affichage;
-use touiteur\objets\Utilisateur;
+namespace touiteur\class\affichage;
+
+use touiteur\class\objets\Utilisateur;
 
 class AffichageUtilisateur
 {

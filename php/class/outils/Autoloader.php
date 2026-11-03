@@ -1,6 +1,6 @@
 <?php
 
-namespace touiteur\outils;
+namespace touiteur\class\outils;
 
 class Autoloader {
 
@@ -9,11 +9,10 @@ class Autoloader {
     }
 
     public static function loadClass(string $classname) {
-
-        $path = str_replace('\\', '/', $classname); // on remplace les \ par des /
-
+        $path = str_replace('\\', '/', $classname);
         $path = str_replace('touiteur/', '', $path);
-        $filename = __DIR__ . '/../' . $path . '.php';
+
+        $filename = __DIR__ . '/../../' . $path . '.php';
 
         if (is_file($filename)) {
             require_once $filename;
