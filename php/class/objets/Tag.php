@@ -13,9 +13,4 @@ class Tag
         $this->nom = $nom;
         $this->description = $description;
     }
-
-    public function to_html():string
-    {
-        return "";
-    }
 }
