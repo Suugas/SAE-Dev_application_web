@@ -16,4 +16,5 @@ class AffichageTagPage
     public function to_html(): string{
         return '<div class="tag"><h1>'.$this->tag->nom.'</h1><p>'.$this->tag->description.'</p></div>';
     }
+    //
 }
