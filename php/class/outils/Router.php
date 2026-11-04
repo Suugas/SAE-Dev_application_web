@@ -24,6 +24,6 @@ class Router
             case 'default':
         }
 
-        throw new \RouterException("Action '{$this->action}' not found");
+        throw new RouterException("Action '{$this->action}' not found");
     }
 }
