@@ -1,4 +1,6 @@
 <?php
+namespace touiteur\class\outils;
+Use PDO;
 
 class DatabaseLoad {
 

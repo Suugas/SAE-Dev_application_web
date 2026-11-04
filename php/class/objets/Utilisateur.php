@@ -1,5 +1,6 @@
 <?php
 namespace touiteur\class\objets;
+
 use touiteur\class\outils\DatabaseLoad;
 class Utilisateur
 {
@@ -38,7 +39,7 @@ class Utilisateur
 
     public function addUtilisateur()
     {
-        $db = DadabaseLoad::getInstance();
+        $db = DatabaseLoad::getInstance();
         $db->addUser($this->mail, $this->nom, $this->prenom);
     }
 }
