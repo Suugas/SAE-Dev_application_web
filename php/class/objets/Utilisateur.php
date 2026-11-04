@@ -39,6 +39,8 @@ class Utilisateur
     public function addUtilisateur()
     {
         $db = DadabaseLoad::getInstance();
-        $db->addUser($this->mail, $this->nom, $this->prenom);
+        if ($db->getUser($this->mail).len == 0){
+            $db->addUser($this->mail, $this->nom, $this->prenom);
+        }
     }
 }

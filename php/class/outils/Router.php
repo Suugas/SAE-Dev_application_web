@@ -2,6 +2,8 @@
 
 namespace touiteur\class\outils;
 
+use touiteur\class\outils;
+
 class Router
 {
     protected ?string $action = null;
@@ -22,6 +24,7 @@ class Router
     {
         switch ($this->action) {
             case 'default':
+
         }
 
         throw new \RouterException("Action '{$this->action}' not found");
