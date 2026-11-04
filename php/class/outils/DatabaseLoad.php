@@ -1,5 +1,8 @@
 <?php
 
+namespace touiteur\class\outils;
+use PDO;
+
 class DatabaseLoad {
 
     protected static ?array $config = null;
