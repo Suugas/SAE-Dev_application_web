@@ -2,7 +2,7 @@
 
 namespace touiteur\class\affichage;
 
-class AffichageConnexionPage
+class AffichageConnexionPage extends Renderer
 {
 
 }
