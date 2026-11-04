@@ -22,11 +22,24 @@ class Router
 
     public function run(): string
     {
+        $page = '';
         switch ($this->action) {
-            case 'default':
-
+            case 'default': 
         }
 
-        throw new RouterException("Action '{$this->action}' not found");
+        return $this->renderPage($page);
+    }
+
+    private function renderPage(string $page): string{
+        return ('
+            <!DOCTYPE html>
+            <html>
+                <head>
+                </head>
+                <body>'.
+                    $page
+                .'</body>
+            </html>
+            ');
     }
 }
