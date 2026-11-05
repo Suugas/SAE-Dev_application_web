@@ -65,7 +65,7 @@ class Router
                 </head>
                 <body>
                     <header>
-                        <h1>Touiteur</h1>
+                        <h1><a href="?">Touiteur</a></h1>
                         <nav>
                             <a href="?action=addTouit">Publier</a>
                         </nav>

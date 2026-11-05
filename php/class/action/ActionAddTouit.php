@@ -38,7 +38,7 @@ class ActionAddTouit extends Action {
         try {
             DatabaseLoad::getInstance()->addTouit($texte, $email, null);
         } catch (\Exception $e) {
-            return $this->formulaire("Erreur : le touit n'a pas pu être enregistré.");
+            return $this->formulaire("Erreur : " . htmlspecialchars($e->getMessage()));
         }
 
         return $this->formulaire('Touit publié');
