@@ -12,6 +12,7 @@ class ActionUtilisateur extends Action{
         $s =<<<HTML
         <Div id="Username">
             <p>{$user['nom']} {$user['prenom']}</p>
+            <a href="?action=follow&email={$user['email']}">Follow</a>
             </div>
         <div id="subscribes">
             <a href="?action=voirsubtag">Tags</a>
