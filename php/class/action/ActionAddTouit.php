@@ -14,7 +14,6 @@ class ActionAddTouit extends Action {
         return $this->formulaire();
     }
 
-    // Affiche le formulaire, avec un message éventuel au-dessus
     private function formulaire(string $message = ''): string {
         return <<<HTML
             <p>{$message}</p>
@@ -42,6 +41,6 @@ class ActionAddTouit extends Action {
             return $this->formulaire("Erreur : le touit n'a pas pu être enregistré.");
         }
 
-        return $this->formulaire('Touit publié !');
+        return $this->formulaire('Touit publié');
     }
 }
