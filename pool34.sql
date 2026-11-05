@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.3
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 05 nov. 2026 à 09:16
--- Version du serveur : 10.4.32-MariaDB
--- Version de PHP : 8.2.12
+-- Généré le : mar. 03 nov. 2026 à 15:40
+-- Version du serveur : 10.11.16-MariaDB
+-- Version de PHP : 8.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,24 +35,25 @@ CREATE TABLE `image` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `liker`
+-- Structure de la table `likes`
 --
 
-CREATE TABLE `liker` (
+CREATE TABLE `likes` (
   `email` varchar(255) NOT NULL,
-  `idMessage` int(11) NOT NULL
+  `IdMessage` int(11) NOT NULL,
+  `Validation` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `noter`
+-- Structure de la table `notation`
 --
 
-CREATE TABLE `noter` (
+CREATE TABLE `notation` (
   `email` varchar(255) NOT NULL,
-  `idMessage` int(11) NOT NULL,
-  `note` tinyint(4) NOT NULL CHECK (`note` between 1 and 5)
+  `IdMessage` int(11) NOT NULL,
+  `Note` int(11) DEFAULT NULL CHECK (`Note` > 0 and `Note` <= 6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -89,20 +90,10 @@ CREATE TABLE `touite` (
   `texte` varchar(235) NOT NULL,
   `date_publication` datetime NOT NULL,
   `email` varchar(255) NOT NULL,
-  `cheminFichier` varchar(255) DEFAULT NULL
+  `cheminFichier` varchar(255) DEFAULT NULL,
+  `Likes` int(11) NOT NULL DEFAULT 0,
+  `Note` decimal(2,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `touite`
---
-
-INSERT INTO `touite` (`idMessage`, `texte`, `date_publication`, `email`, `cheminFichier`) VALUES
-(2, 'nique ta mère le projet de merde', '2026-11-04 16:45:23', 'test@test.fr', NULL),
-(3, 'test 2', '2026-11-04 16:45:32', 'test@test.fr', NULL),
-(4, 'test', '2026-11-04 17:07:22', 'test@test.fr', NULL),
-(5, 'test 2', '2026-11-05 08:21:06', 'test@test.fr', NULL),
-(6, 'test 2', '2026-11-05 08:24:47', 'test@test.fr', NULL),
-(7, 'bonjours', '2026-11-05 08:29:07', 'test@test.fr', NULL);
 
 -- --------------------------------------------------------
 
@@ -128,13 +119,6 @@ CREATE TABLE `utilisateur` (
   `nombre_touites` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `utilisateur`
---
-
-INSERT INTO `utilisateur` (`email`, `nom`, `prenom`, `nombre_touites`) VALUES
-('test@test.fr', 'Test', 'Test', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -157,18 +141,18 @@ ALTER TABLE `image`
   ADD PRIMARY KEY (`cheminFichier`);
 
 --
--- Index pour la table `liker`
+-- Index pour la table `likes`
 --
-ALTER TABLE `liker`
-  ADD PRIMARY KEY (`email`,`idMessage`),
-  ADD KEY `idMessage` (`idMessage`);
+ALTER TABLE `likes`
+  ADD PRIMARY KEY (`email`,`IdMessage`),
+  ADD KEY `IdMessage` (`IdMessage`);
 
 --
--- Index pour la table `noter`
+-- Index pour la table `notation`
 --
-ALTER TABLE `noter`
-  ADD PRIMARY KEY (`email`,`idMessage`),
-  ADD KEY `idMessage` (`idMessage`);
+ALTER TABLE `notation`
+  ADD PRIMARY KEY (`email`,`IdMessage`),
+  ADD KEY `IdMessage` (`IdMessage`);
 
 --
 -- Index pour la table `suivre`
@@ -213,32 +197,22 @@ ALTER TABLE `utilisateur_tag`
   ADD KEY `idTag` (`idTag`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
---
-
---
--- AUTO_INCREMENT pour la table `touite`
---
-ALTER TABLE `touite`
-  MODIFY `idMessage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
 -- Contraintes pour les tables déchargées
 --
 
 --
--- Contraintes pour la table `liker`
+-- Contraintes pour la table `likes`
 --
-ALTER TABLE `liker`
-  ADD CONSTRAINT `liker_ibfk_1` FOREIGN KEY (`email`) REFERENCES `utilisateur` (`email`) ON DELETE CASCADE,
-  ADD CONSTRAINT `liker_ibfk_2` FOREIGN KEY (`idMessage`) REFERENCES `touite` (`idMessage`) ON DELETE CASCADE;
+ALTER TABLE `likes`
+  ADD CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`email`) REFERENCES `utilisateur` (`email`),
+  ADD CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`IdMessage`) REFERENCES `touite` (`idMessage`);
 
 --
--- Contraintes pour la table `noter`
+-- Contraintes pour la table `notation`
 --
-ALTER TABLE `noter`
-  ADD CONSTRAINT `noter_ibfk_1` FOREIGN KEY (`email`) REFERENCES `utilisateur` (`email`) ON DELETE CASCADE,
-  ADD CONSTRAINT `noter_ibfk_2` FOREIGN KEY (`idMessage`) REFERENCES `touite` (`idMessage`) ON DELETE CASCADE;
+ALTER TABLE `notation`
+  ADD CONSTRAINT `notation_ibfk_1` FOREIGN KEY (`email`) REFERENCES `utilisateur` (`email`),
+  ADD CONSTRAINT `notation_ibfk_2` FOREIGN KEY (`IdMessage`) REFERENCES `touite` (`idMessage`);
 
 --
 -- Contraintes pour la table `suivre`
