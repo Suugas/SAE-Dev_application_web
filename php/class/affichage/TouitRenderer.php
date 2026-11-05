@@ -27,12 +27,12 @@ class TouitRenderer implements Renderer{
                     <span class="touit__author">' . htmlspecialchars($this->touit->email) . '</span>
                     <span class="touit__date">' . htmlspecialchars($this->touit->date_publication) . '</span>
                 </header>
-                
+
                 <div class="touit__body">
                     <p class="touit__text">' . nl2br(htmlspecialchars($this->touit->texte)) . '</p>
                     ' . $imageHtml . '
                 </div>
-                
+
                 <footer class="touit__footer">
                     <div class="touit__action touit__action--like">
                         <button class="btn-like" data-id="' . $this->touit->idMessage . '">❤️</button>
