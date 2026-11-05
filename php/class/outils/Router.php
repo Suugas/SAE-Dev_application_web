@@ -2,6 +2,8 @@
 
 namespace touiteur\class\outils;
 
+use touiteur\class\action\ActionAddTouit;
+use touiteur\class\action\ActionLikerTouit;
 use touiteur\class\outils;
 
 class Router
@@ -20,15 +22,21 @@ class Router
         return $this;
     }
 
-    public function run(): string
-    {
-        $page = '';
-        switch ($this->action) {
-            case 'default': 
-        }
-
-        return $this->renderPage($page);
+   public function run(): string
+{
+    switch ($this->action) {
+        case 'addTouit':
+            $action = new ActionAddTouit();
+            break;
+       case 'liker':
+            $action = new ActionLikerTouit();
+            break;
+        default:
+            throw new RouterException("Action '{$this->action}' not found");
     }
+
+    return $action->execute();
+}
 
     private function renderPage(string $page): string{
         return ('
@@ -42,4 +50,5 @@ class Router
             </html>
             ');
     }
+
 }
