@@ -44,19 +44,19 @@ class DatabaseLoad {
             limit 50 offset 50*:page;";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['page' => $page]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     //recuprer touite utilisateur
     public function getTouitesUtilisateur(int $page, string $email):array{
         $query = "Select text, date_publication, email, cheminfichier
             from touite
-            where email like ':email'
+            where email = :email
             Order by date_publication
             limit 50 offset 50*:page;";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute(['page' => $page, 'email'=>$email]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function addUser(string $email, string $nom, string $prenom):void{
@@ -68,9 +68,16 @@ class DatabaseLoad {
 
     //getUtilisateur
     public function getUser(string $email):array{
-        $query = "Select email from utilisateur where email like ':email'";
+        $query = "Select * from utilisateur where email = :email";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['email' =>$email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function countAbonnement(string $email):array{
+        $query = "Select count(email_suivi) from suivre where email_suiveur = :email";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['email'=>$email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
