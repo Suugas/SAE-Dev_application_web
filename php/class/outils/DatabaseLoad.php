@@ -39,13 +39,18 @@ class DatabaseLoad {
 
     public function getTouites(int $page): array
     {
-        $query = "Select text, date_publication, email, cheminfichier
-            from touite
-            Order by date_publication
-            limit 50 offset 50*:page;";
+        $limite = 50;
+        $offset = $page * $limite;
+
+        $query = "SELECT text, date_publication, email, cheminfichier
+                  FROM touite
+                  ORDER BY date_publication DESC
+                  LIMIT :limite OFFSET :offset";
+
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['page' => $page]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     //recuprer touite utilisateur
