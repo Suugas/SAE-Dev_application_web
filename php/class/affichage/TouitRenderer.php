@@ -2,7 +2,7 @@
 
 namespace touiteur\class\affichage;
 
-use touiter\class\objets\Touit;
+use touiteur\class\objets\Touit;
 
 class TouitRenderer implements Renderer{
     private Touit $touit;
