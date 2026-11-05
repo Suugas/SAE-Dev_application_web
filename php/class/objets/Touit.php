@@ -1,7 +1,10 @@
 <?php
 
 namespace touiteur\class\objets;
+<<<<<<< HEAD
 require_once 'connexion.php';
+=======
+>>>>>>> dev
 
 
 class Touit

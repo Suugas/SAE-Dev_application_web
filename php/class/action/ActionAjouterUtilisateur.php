@@ -7,7 +7,7 @@ use touiteur\class\outils\DatabaseLoad;
 class ActionAjouterUtilisateur extends Action{
     public function execute(): string{
         $s = '<div id="connect">
-            <form id="login" method="POST" action="/add" >
+            <form id="login" method="POST" action="?action=ajouterUtilisateur" >
                 <p> Login: </p>
                 <input type = "email" name="email" required placeholder="Votre Email">
                 <input type="text" name="nom" value="Prinny" placeholder="Nom">
