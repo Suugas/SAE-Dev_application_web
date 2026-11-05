@@ -1,5 +1,9 @@
 <?php
 
+namespace touiteur\class\action;
+use touiteur\class\action\Action;
+use touiteur\class\outils\DatabaseLoad;
+
 class ActionLikerTouit extends Action {
 
     public function execute(): string {
@@ -14,10 +18,10 @@ class ActionLikerTouit extends Action {
 
 
         //truc tempo comme addtouit
-        $email = 'test@test.fr'; 
+        $email = 'test@test.fr';
 
         try {
-            $estLike = DatabaseLoad::getInstance()->toggleLike($email, $id);
+            $estLike = DatabaseLoad::getInstance()->btnLike($email, $id);
         } catch (\Exception $e) {
             return '<p>Erreur</p>';
         }

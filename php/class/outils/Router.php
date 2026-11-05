@@ -3,6 +3,7 @@
 namespace touiteur\class\outils;
 
 use touiteur\class\action\ActionAddTouit;
+use touiteur\class\action\ActionFollow;
 use touiteur\class\action\ActionLikerTouit;
 use touiteur\class\outils;
 
@@ -30,6 +31,9 @@ class Router
             break;
        case 'liker':
             $action = new ActionLikerTouit();
+            break;
+        case 'follow':
+            $action = new ActionFollow();
             break;
         default:
             throw new RouterException("Action '{$this->action}' not found");
