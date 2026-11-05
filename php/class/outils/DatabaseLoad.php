@@ -48,9 +48,9 @@ class DatabaseLoad {
                   LIMIT :limite OFFSET :offset";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute();
+        $stmt->execute(['offset'=>$offset]);
 
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     //recuprer touite utilisateur
