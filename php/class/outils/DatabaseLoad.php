@@ -37,7 +37,8 @@ class DatabaseLoad {
         self::$config = parse_ini_file($file);
     }
 
-    public function getTouites(int $page):array{
+    public function getTouites(int $page): array
+    {
         $query = "Select text, date_publication, email, cheminfichier
             from touite
             Order by date_publication
@@ -48,7 +49,8 @@ class DatabaseLoad {
     }
 
     //recuprer touite utilisateur
-    public function getTouitesUtilisateur(int $page, string $email):array{
+    public function getTouitesUtilisateur(int $page, string $email): array
+    {
         $query = "Select text, date_publication, email, cheminfichier
             from touite
             where email = :email
@@ -59,18 +61,20 @@ class DatabaseLoad {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function addUser(string $email, string $nom, string $prenom):void{
+    public function addUser(string $email, string $nom, string $prenom): void
+    {
         $query = "Insert into utilisateur(email, nom, prenom)
             values(:email, :nom, :prenom);";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['email'=>$email, 'nom'=>$nom, 'prenom'=>$prenom]);
+        $stmt->execute(['email' => $email, 'nom' => $nom, 'prenom' => $prenom]);
     }
 
     //getUtilisateur
-    public function getUser(string $email):array{
+    public function getUser(string $email): array
+    {
         $query = "Select * from utilisateur where email = :email";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['email' =>$email]);
+        $stmt->execute(['email' => $email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -93,14 +97,55 @@ class DatabaseLoad {
                 values(:follower, :followed)");
                 $stmt->execute(['follower'=>$follower, 'followed'=>$followed]);
         }
+    }    public function addTouit(string $texte, string $email, ?string $cheminFichier)
+    {
+        $query = "INSERT INTO touite (texte, date_publication, email, cheminFichier)
+        VALUES (:texte, NOW(), :email, :cheminFichier);";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([
+            'texte' => $texte,
+            'email' => $email,
+            'cheminFichier' => $cheminFichier,
+        ]);
     }
-    //envoyer un touoit
+
+    // Renvoie true si le touit est maintenant liké, false s'il vient d'être unliké
+    public function btnLike(string $email, int $idMessage): bool
+    {
+        $params = ['email' => $email, 'id' => $idMessage];
+
+        $stmt = $this->pdo->prepare(
+            "DELETE FROM liker WHERE email = :email AND idMessage = :id"
+        );
+        $stmt->execute($params);
+
+        if ($stmt->rowCount() > 0) {
+            return false;
+        }
+
+        $stmt = $this->pdo->prepare(
+            "INSERT INTO liker (email, idMessage) VALUES (:email, :id)"
+        );
+        $stmt->execute($params);
+        return true;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     // Recuperer followers et followed
 
 
     // recuperer tag follow
     // Recuperer 1 touite
     //
-    // ajouter touite
-    // liker touite
+
 }
