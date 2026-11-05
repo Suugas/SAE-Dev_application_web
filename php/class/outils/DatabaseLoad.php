@@ -81,7 +81,19 @@ class DatabaseLoad {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-
+    public function follow(string $follower, string $followed):void{
+        $stmt = $this->pdo->prepare("Select email_suiveur from suivre where email_suiveur = :follower and email_suivi = :followed;");
+        $stmt->execute(['follower'=>$follower, 'followed'=>$followed]);
+        if(count($stmt->fetchAll(PDO::FETCH_ASSOC))>0){
+            $stmt = $this->pdo->prepare("Delete from suivre where email_suiveur = :follower and email_suivi = :followed;");
+            $stmt->execute(['follower'=>$follower, 'followed'=>$followed]);
+        }
+        else{
+            $stmt = $this->pdo->prepare("Insert into suivre(email_suiveur, email_suivi)
+                values(:follower, :followed)");
+                $stmt->execute(['follower'=>$follower, 'followed'=>$followed]);
+        }
+    }
     //envoyer un touoit
     // Recuperer followers et followed
 
