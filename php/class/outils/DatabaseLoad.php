@@ -75,6 +75,36 @@ class DatabaseLoad {
     //envoyer un touoit
     // Recuperer followers et followed
 
+    public function getTag(int $idTag):array{
+        $query = "SELECT idTag from tag where idTag like ':idTag'";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(["idTag"=>$idTag]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function addTag(int $idTag, string $libelle) : void{
+        $description = "";
+        $query = "INSERT into tag(idTag, libelle, description) values(:idTag, :libelle, :description);";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['idTag'=>$idTag, 'libelle'=>$libelle, 'description'=>$description]);
+    }
+
+    public function editTag(int $idTag, string $description) : void{
+        $query = "UPDATE tag SET description = :description WHERE idTag = :idTag;";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(["idTag"=>$idTag, "description"=>$description]);
+    }
+
+    public function getTouitesDuTag(int $idTag, int $page) : array {
+        $query = "SELECT idMessage
+            from touite_tag
+            where idTag like ':idTag'
+            Order by date_publication
+            limit 50 offset 50*:page;";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['page' => $page, 'idTag'=>$idTag]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
     // recuperer tag follow
     // Recuperer 1 touite
