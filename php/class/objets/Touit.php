@@ -1,7 +1,6 @@
 <?php
 
-namespace touiter\class\objets;
-require_once 'connexion.php';
+namespace touiteur\class\objets;
 
 
 class Touit

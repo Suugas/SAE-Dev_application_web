@@ -13,6 +13,9 @@ use touiteur\class\outils\RouterException;
 
 DatabaseLoad::setConfig(__DIR__ . '/../../db.config.ini');
 
+// Racine web du projet, quel que soit le nom du dossier (ex : /SAE-Dev_application_web)
+define('BASE_URL', rtrim(dirname($_SERVER['SCRIPT_NAME'], 3), '/'));
+
 $router = new Router();
 
 try {

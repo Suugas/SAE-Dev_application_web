@@ -17,10 +17,10 @@ class ActionUtilisateur extends Action{
             </div>
         <div id="subscribes">
             <a href="?action=voirsubtag">Tags</a>
-            <from id="abonnements" method="GET" action="?action=voirabonnements">
+            <form id="abonnements" method="GET" action="?action=voirabonnements">
                 <button type=submit value {$user['email']}>Abonnements: </button>
             </form>
-            <from id="abonnes" method="GET" action="?action=voirabonnes">
+            <form id="abonnes" method="GET" action="?action=voirabonnes">
                 <button type=submit value {$user['email']}>Abonnés: </button>
             </form>
         </div>

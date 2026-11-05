@@ -2,7 +2,7 @@
 
 namespace touiteur\class\affichage;
 
-use touiter\class\objets\Touit;
+use touiteur\class\objets\Touit;
 
 class TouitRenderer implements Renderer{
     private Touit $touit;
@@ -13,10 +13,10 @@ class TouitRenderer implements Renderer{
     public function render():string{
         // On vérifie s'il y a une image associée pour l'afficher ou non
         $imageHtml = '';
-        if (!empty($this->cheminFichier)) {
+        if (!empty($this->touit->cheminFichier)) {
             $imageHtml = '
                 <div class="touit__media">
-                    <img src="' . htmlspecialchars($this->touit->cheminFichier) . '" alt="Image du touit" class="touit__image">
+                    <img src="' . BASE_URL . '/' . htmlspecialchars($this->touit->cheminFichier) . '" alt="Image du touit" class="touit__image">
                 </div>';
         }
 
