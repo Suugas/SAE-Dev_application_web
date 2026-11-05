@@ -1,5 +1,7 @@
 <?php
 
+namespace touiteur\class\action;
+
 class ActionLikerTouit extends Action {
 
     public function execute(): string {

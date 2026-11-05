@@ -20,25 +20,6 @@ try {
 } catch (RouterException $e) {
     $contenu = '<p>Page introuvable.</p>';
 }
-?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Touiteur</title>
-    <link rel="stylesheet" href="../../css/style.css">
-</head>
-<body>
-    <header>
-        <h1>Touiteur</h1>
-        <nav>
-            <a href="?action=addTouit">Publier</a>
-        </nav>
-    </header>
 
-    <main>
-        <?= $contenu ?>
-    </main>
-</body>
-</html>
+echo $contenu;
+?>

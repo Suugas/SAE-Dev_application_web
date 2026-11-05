@@ -5,6 +5,7 @@ namespace touiteur\class\outils;
 use touiteur\class\action\ActionAddTouit;
 use touiteur\class\action\ActionLikerTouit;
 use touiteur\class\outils;
+use touiteur\class\action\ActionTagDescription;
 
 class Router
 {
@@ -24,29 +25,49 @@ class Router
 
    public function run(): string
 {
+    $action = '';
     switch ($this->action) {
         case 'addTouit':
-            $action = new ActionAddTouit();
+            $addTouite = new ActionAddTouit();
+            $action = $addTouite->execute();
             break;
-       case 'liker':
-            $action = new ActionLikerTouit();
+        case 'liker':
+            $likeTouit = new ActionLikerTouit();
+            $action = $likeTouit->execute();
+            break;
+        case 'tag_description':
+            $tagDescription = new ActionTagDescription();
+            $action = $tagDescription->execute();
             break;
         default:
-            throw new RouterException("Action '{$this->action}' not found");
+            $action = 'Acceuil';
+            break;
     }
 
-    return $action->execute();
+    return $this->renderPage($action);
 }
 
     private function renderPage(string $page): string{
         return ('
             <!DOCTYPE html>
-            <html>
+            <html lang="fr">
                 <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Touiteur</title>
+                    <link rel="stylesheet" href="../../css/style.css">
                 </head>
-                <body>'.
-                    $page
-                .'</body>
+                <body>
+                    <header>
+                        <h1>Touiteur</h1>
+                        <nav>
+                            <a href="?action=addTouit">Publier</a>
+                        </nav>
+                    </header>
+
+                    <main>'. $page.
+                    '</main>
+                </body>
             </html>
             ');
     }

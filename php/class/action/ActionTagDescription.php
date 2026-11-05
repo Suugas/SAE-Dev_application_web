@@ -2,7 +2,7 @@
 
 namespace touiteur\class\action;
 
-use DatabaseLoad;
+use touiteur\class\outils\DatabaseLoad;
 use touiteur\class\action\Action;
 
 class ActionTagDescription extends Action{
