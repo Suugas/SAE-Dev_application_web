@@ -28,7 +28,6 @@ class Router
 {
     $action = '';
     switch ($this->action) {
-        case 'default': // page d'accueil (aucune action dans l'URL)
         case 'addTouit':
             $addTouite = new ActionAddTouit();
             $action = $addTouite->execute();
