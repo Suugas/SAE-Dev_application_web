@@ -3,7 +3,7 @@ namespace touiteur\class\affichage;
 
 use touiteur\class\objets\Utilisateur;
 
-class AffichageUtilisateur implements Renderer
+class UtilisateurRenderer implements Renderer
 {
     public Utilisateur $utilisateur;
 
@@ -12,7 +12,7 @@ class AffichageUtilisateur implements Renderer
     }
 
     public function render(): string{
-        $res = '<div id="profil_user"> <h1>' . $this->utilisateur->nom . '</h1></div>';
+        $res = '<div class="user_box"> <h1>' . $this->utilisateur->nom . " - " . $this->utilisateur->prenom . '</h1></div>';
         return $res;
     }
 }
