@@ -137,7 +137,49 @@ class DatabaseLoad {
         return true;
     }
 
+    public function rechercherTouit(string $texte): array
+{
+    $query = "SELECT t.idMessage, t.texte, t.date_publication, t.email, u.nom, u.prenom, t.cheminFichier, t.Likes, t.Note
+              FROM touite AS t
+              JOIN utilisateur AS u 
+              ON u.email = t.email
+              LEFT JOIN touite_tag as tg
+              ON tg.idMessage = t.idMessage
+              LEFT JOIN tag
+              ON tag.idTag = tg.idTag
+              WHERE t.texte LIKE :texte
+              OR u.nom LIKE :texte
+              OR tag.libelle LIKE :texte
+              ORDER BY t.date_publication DESC
+              LIMIT 20;";
+    $stmt = $this->pdo->prepare($query);
+    $like = '%' . $texte . '%';
+    $stmt->execute(['texte' => $like]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
+    public function rechercherUtilisateur(string $texte): array
+{
+    $query = "SELECT email, nom, prenom, nombre_touites
+              FROM utilisateur
+              WHERE nom LIKE :texte OR prenom LIKE :texte
+              LIMIT 10";
+    $stmt = $this->pdo->prepare($query);
+    $like = '%' . $texte . '%';
+    $stmt->execute(['texte' => $like]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+    public function rechercherTag(string $texte): array{
+        $query = "SELECT idTag, libelle, description
+                    FROM tag 
+                    WHERE libelle like :texte or description like :texte
+                    limit 10;";
+        $stmt = $this->pdo->prepare($query);
+        $like = '%' . $texte . '%';
+        $stmt->execute(['texte'=>$like]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
 

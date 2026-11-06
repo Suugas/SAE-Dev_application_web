@@ -40,7 +40,7 @@ class TouitRenderer implements Renderer{
                     </div>
                     <div class="touit__action touit__action--note">
                         <span class="icon-star">⭐</span>
-                        <span class="note-value">' . $this->touit->note_moy . '/5</span>
+                        <span class="note-value">' . $this->touit->note . '/5</span>
                     </div>
                 </footer>
             </article>
