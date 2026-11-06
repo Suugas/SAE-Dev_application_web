@@ -150,18 +150,18 @@ class DatabaseLoad {
 
     // Recuperer followers et followed
 
-    public function getTag(int $idTag):array{
-        $query = "SELECT idTag from tag where idTag like ':idTag'";
+    public function getTag(int $libelleTag):array{
+        $query = "SELECT idTag, libelle from tag where libelle = :libelle";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(["idTag"=>$idTag]);
+        $stmt->execute(["libelle"=>$libelleTag]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function addTag(int $idTag, string $libelle) : void{
+    public function addTag(string $libelle) : void{
         $description = "";
-        $query = "INSERT into tag(idTag, libelle, description) values(:idTag, :libelle, :description);";
+        $query = "INSERT into tag(idTag, libelle, description) values(:libelle, :description);";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['idTag'=>$idTag, 'libelle'=>$libelle, 'description'=>$description]);
+        $stmt->execute(['libelle'=>$libelle, 'description'=>$description]);
     }
 
     public function editTag(int $idTag, string $description) : void{
@@ -179,6 +179,20 @@ class DatabaseLoad {
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['page' => $page, 'idTag'=>$idTag]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function addTagMessage($idMessage, $idTag): void{
+        $query = "Insert into touite_tag(idMessage, idTag)
+            values(:idMessage, :idTag);";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['idMessage'=>$idMessage, 'idTag'=>$idTag]);
+    }
+
+    public function getLastTouite():int{
+        $query = "Select Max(IdMessage) as max from touite;";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return (int)$stmt->fetch(PDO::FETCH_ASSOC)['max'];
     }
 
     // recuperer tag follow
