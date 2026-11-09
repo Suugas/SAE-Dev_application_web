@@ -4,6 +4,7 @@ namespace touiteur\class\outils;
 
 use touiteur\class\action\ActionAddTouit;
 use touiteur\class\action\ActionAfficherMurTag;
+use touiteur\class\action\ActionAfficherMurUtilisateur;
 use touiteur\class\action\ActionForYouPage;
 use touiteur\class\action\ActionLikerTouit;
 use touiteur\class\action\ActionRechercher;
@@ -11,6 +12,7 @@ use touiteur\class\action\ActionUtilisateur;
 use touiteur\class\outils;
 use touiteur\class\action\ActionTagDescription;
 use touiteur\class\action\ActionAjouterUtilisateur;
+
 
 class Router
 {
@@ -49,7 +51,8 @@ class Router
             $action = $tagDescription->execute();
             break;
         case 'user':
-            $user = new ActionUtilisateur();
+            //$user = new ActionUtilisateur();
+            $user = new ActionAfficherMurUtilisateur();
             $action = $user->execute();
             break;
         case 'search':

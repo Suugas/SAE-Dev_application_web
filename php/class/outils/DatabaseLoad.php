@@ -58,13 +58,16 @@ class DatabaseLoad {
     //recuprer touite utilisateur
     public function getTouitesUtilisateur(int $page, string $email): array
     {
-        $query = "Select text, date_publication, email, cheminfichier
+        $offset = 50* $page;
+        $query = "Select *
             from touite
-            where email = :email
+            where email like :email
             Order by date_publication
-            limit 50 offset 50*:page;";
+            limit 50 offset :offset;";
             $stmt = $this->pdo->prepare($query);
-            $stmt->execute(['page' => $page, 'email'=>$email]);
+            $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+            $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

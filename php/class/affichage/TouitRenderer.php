@@ -24,7 +24,7 @@ class TouitRenderer implements Renderer{
         return '
             <article class="touit-card" id="touit-' . $this->touit->idMessage . '">
                 <header class="touit__header">
-                    <span class="touit__author">' . htmlspecialchars($this->touit->email) . '</span>
+                    <span class="touit__author"><a href="?action=user&email='. htmlspecialchars($this->touit->email) .'">' . htmlspecialchars($this->touit->email) . '</a></span>
                     <span class="touit__date">' . htmlspecialchars($this->touit->date_publication) . '</span>
                 </header>
 
