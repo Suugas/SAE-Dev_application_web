@@ -3,6 +3,7 @@
 namespace touiteur\class\outils;
 
 use touiteur\class\action\ActionAddTouit;
+use touiteur\class\action\ActionAfficherMurTag;
 use touiteur\class\action\ActionForYouPage;
 use touiteur\class\action\ActionLikerTouit;
 use touiteur\class\action\ActionRechercher;
@@ -54,6 +55,10 @@ class Router
         case 'search':
             $search = new ActionRechercher();
             $action = $search->execute();
+            break;
+        case 'tag':
+            $tag = new ActionAfficherMurTag();
+            $action = $tag->execute();
             break;
         default:
             $fyp = new ActionForYouPage();

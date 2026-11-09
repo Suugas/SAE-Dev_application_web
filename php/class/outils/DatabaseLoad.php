@@ -189,11 +189,10 @@ class DatabaseLoad {
 
 
 
-
     // Recuperer followers et followed
 
-    public function getTag(int $libelleTag):array{
-        $query = "SELECT idTag, libelle from tag where libelle = :libelle";
+    public function getTag(string $libelleTag):array{
+        $query = "SELECT idTag, libelle, description from tag where libelle = :libelle";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(["libelle"=>$libelleTag]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -212,15 +211,25 @@ class DatabaseLoad {
         $stmt->execute(["idTag"=>$idTag, "description"=>$description]);
     }
 
-    public function getTouitesDuTag(int $idTag, int $page) : array {
-        $query = "SELECT idMessage
-            from touite_tag
-            where idTag like ':idTag'
+    public function getTouitesDuTag(string $libelle, int $page) : array {
+        $offset = 50* $page;
+        $query = "SELECT t.idMessage, t.texte, t.date_publication, t.email, t.cheminFichier, t.Likes, t.Note
+            FROM touite as t
+            JOIN touite_tag as tg
+            ON t.idMessage = tg.idMessage
+            JOIN tag
+            on tag.idTag = tg.idTag
+            where tag.libelle like :libelle
             Order by date_publication
-            limit 50 offset 50*:page;";
+            limit 50 offset :offset;";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['page' => $page, 'idTag'=>$idTag]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt->bindValue(':libelle', $libelle, PDO::PARAM_STR);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function addTagMessage($idMessage, $idTag): void{
