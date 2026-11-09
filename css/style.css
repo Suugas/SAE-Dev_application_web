@@ -1,39 +1,210 @@
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f5f8fa;
-    color: #14171a;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f3f5f9;
+    color: #172033;
 }
 
-header {
+body > header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
-    background: #1da1f2;
+    padding: 14px max(20px, calc((100% - 760px) / 2));
+    background: #fff;
     color: white;
+    border-bottom: 1px solid #e8ebf1;
 }
 
-header h1 {
-    font-size: 24px;
+body > header h1 {
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: -0.04em;
 }
 
-nav a {
-    color: white;
+body > header h1 a {
+    color: #172033;
     text-decoration: none;
-    font-weight: bold;
 }
 
-nav a:hover {
-    text-decoration: underline;
+body > header nav a {
+    display: inline-block;
+    padding: 9px 16px;
+    border-radius: 999px;
+    background: #635bff;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background .2s ease, transform .2s ease;
+}
+
+body > header nav a:hover {
+    background: #4b43e5;
+    transform: translateY(-1px);
 }
 
 main {
-    max-width: 600px;
-    margin: 30px auto;
-    padding: 20px;
-    background: white;
-    border-radius: 8px;
+    max-width: 640px;
+    margin: 34px auto;
+    padding: 0 18px;
+}
+
+.touits_box {
+    display: grid;
+    gap: 16px;
+}
+
+.touit-card {
+    overflow: hidden;
+    border: 1px solid #e6e9f0;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 6px 22px rgb(23 32 51 / 5%);
+    transition: box-shadow .2s ease, transform .2s ease;
+}
+
+.touit-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgb(23 32 51 / 9%);
+}
+
+.touit__detail-link {
+    display: block;
+    padding: 20px 22px 14px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.touit__detail-link:focus-visible,
+.btn-like:focus-visible {
+    outline: 3px solid #aaa5ff;
+    outline-offset: 3px;
+}
+
+.touit__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 16px;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+}
+
+.touit__avatar {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7971ff, #a4a0ff);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.touit__identity {
+    display: grid;
+    gap: 3px;
+    min-width: 0;
+}
+
+.touit__author {
+    overflow: hidden;
+    color: #20283a;
+    font-size: 14px;
+    font-weight: 750;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.touit__date {
+    color: #8991a2;
+    font-size: 12px;
+}
+
+.touit__more {
+    margin-left: auto;
+    color: #9aa2b1;
+    font-size: 24px;
+    line-height: 1;
+}
+
+.touit__text {
+    margin: 0;
+    color: #30394c;
+    font-size: 15px;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.touit__media {
+    margin-top: 16px;
+}
+
+.touit__image {
+    display: block;
+    width: 100%;
+    max-height: 440px;
+    border: 1px solid #edf0f5;
+    border-radius: 13px;
+    object-fit: cover;
+}
+
+.touit__footer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 22px 16px;
+    border-top: 1px solid #f0f1f5;
+}
+
+.touit__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #788194;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.touit__action--like {
+    gap: 8px;
+}
+
+.btn-like {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    margin: 0;
+    padding: 0;
+    place-items: center;
+    border-radius: 50%;
+    background: #fff0f2;
+    color: #ed5570;
+    font-size: 18px;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.btn-like:hover {
+    transform: scale(1.08);
+    background: #ffe0e6;
+}
+
+.icon-star {
+    color: #f1ae3b;
+    font-size: 16px;
+}
+
+body > main > p a {
+    color: #635bff;
+    font-weight: 650;
+    text-decoration: none;
+}
+
+body > main > p a:hover {
+    text-decoration: underline;
 }
 
 textarea {
@@ -42,23 +213,49 @@ textarea {
     padding: 10px;
     font-family: inherit;
     font-size: 16px;
-    border: 1px solid #ccd6dd;
-    border-radius: 8px;
+    border: 1px solid #dfe3eb;
+    border-radius: 12px;
     resize: vertical;
 }
 
 button {
-    margin-top: 10px;
     padding: 8px 20px;
     font-size: 16px;
     font-weight: bold;
     color: white;
-    background: #1da1f2;
+    background: #635bff;
     border: none;
-    border-radius: 20px;
+    border-radius: 999px;
     cursor: pointer;
 }
 
 button:hover {
-    background: #0d8ddb;
+    background: #4b43e5;
+}
+
+@media (max-width: 520px) {
+    body > header {
+        padding: 12px 18px;
+    }
+
+    body > header h1 {
+        font-size: 20px;
+    }
+
+    main {
+        margin: 22px auto;
+        padding: 0 12px;
+    }
+
+    .touit__detail-link {
+        padding: 17px 17px 12px;
+    }
+
+    .touit__footer {
+        padding: 10px 17px 14px;
+    }
+
+    .touit__text {
+        font-size: 14px;
+    }
 }

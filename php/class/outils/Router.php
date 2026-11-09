@@ -3,6 +3,7 @@
 namespace touiteur\class\outils;
 
 use touiteur\class\action\ActionAddTouit;
+use touiteur\class\action\ActionAfficherTouit;
 use touiteur\class\action\ActionForYouPage;
 use touiteur\class\action\ActionLikerTouit;
 use touiteur\class\action\ActionUtilisateur;
@@ -33,6 +34,10 @@ class Router
         case 'addTouit':
             $addTouite = new ActionAddTouit();
             $action = $addTouite->execute();
+            break;
+        case 'afficherTouit':
+            $afficherTouit = new ActionAfficherTouit();
+            $action = $afficherTouit->execute();
             break;
         case 'liker':
             $likeTouit = new ActionLikerTouit();
