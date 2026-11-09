@@ -33,6 +33,23 @@
                         <span class="note-value">' . $this->note_moy . '/5</span>
                     </div>
                 </footer>
+
             </article>
+
+            <article class="touits_box">
+                <header class="touits_box_header">
+                    <p>Touits</p>
+                </header>
+                <div class="touits_box_body">
+                    
+                </div>
+            </article>
+
+            <form id="form_search" method="post" action="?action=search">
+                <label for="form_description">Description du Tag</label>
+                <input type="text" id="form_description" name="description" placeholder="<description>" required>
+
+                <button type="submit" name="valider_description" value="valid_form_tag">Valider</button>
+            </form>
 </body>
 </html>
