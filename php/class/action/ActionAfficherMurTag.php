@@ -27,7 +27,16 @@ class ActionAfficherMurTag extends Action{
             </article>
         ';
         foreach ($touits as $tou) {
-            $res .= new TouitRenderer($tou)->render();
+            $res .= new TouitRenderer(
+                new Touit(
+                    $tou["idMessage"],
+                    $tou["texte"],
+                    $tou["date_publication"],
+                    $tou["email"],
+                    $tou["cheminFichier"],
+                    $tou["Likes"],
+                    $tou["Note"]
+                    ))->render();
         }
 
         return $res;
