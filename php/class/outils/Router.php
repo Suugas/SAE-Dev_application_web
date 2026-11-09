@@ -6,6 +6,7 @@ use touiteur\class\action\ActionAddTouit;
 use touiteur\class\action\ActionAfficherTouit;
 use touiteur\class\action\ActionForYouPage;
 use touiteur\class\action\ActionLikerTouit;
+use touiteur\class\action\ActionRechercher;
 use touiteur\class\action\ActionUtilisateur;
 use touiteur\class\outils;
 use touiteur\class\action\ActionTagDescription;
@@ -55,6 +56,10 @@ class Router
             $user = new ActionUtilisateur();
             $action = $user->execute();
             break;
+        case 'search':
+            $search = new ActionRechercher();
+            $action = $search->execute();
+            break;
         default:
             $fyp = new ActionForYouPage();
             $action = $fyp->execute();
@@ -79,6 +84,9 @@ class Router
                         <h1><a href="?">Touiteur</a></h1>
                         <nav>
                             <a href="?action=addTouit">Publier</a>
+                        </nav>
+                        <nav>
+                            <a href="?action=search">Rechercher</a>
                         </nav>
                     </header>
 

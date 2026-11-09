@@ -43,4 +43,23 @@ class ActionAddTouit extends Action {
 
         return $this->formulaire('Touit publié');
     }
+
+    public function extraireTag(): void{
+        $db = DatabaseLoad::getInstance();
+        $texte = $_POST['contenu'];
+        $decoupage = explode("#", $texte);
+        $count = 0;
+        foreach($decoupage as $tag){
+            if($count>0){
+                $existance = count($db->getTag($tag))>0;
+                if($existance ===false){
+                    $db->addTag($tag);
+                }
+                $connexion = $db->getTag($tag);
+                $lastMessage = $db->getLastTouite();
+                $db->addTagMessage($lastMessage, $connexion['idTag']);
+            }
+            $count++;
+        }
+    }
 }
