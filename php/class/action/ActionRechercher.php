@@ -17,7 +17,7 @@ class ActionRechercher extends Action {
                 <label for="form_recherche">Rechercher</label>
                 <input type="text" id="form_search" name="txt" placeholder="<txt>" required>
 
-                <button type="submit" name="valider_search value="valid_form_search">Valider</button>
+                <button type="submit" name="valider_search" value="valid_form_search">Valider</button>
             </form>
         ';
         if ($this->http_method == "POST"){
@@ -31,7 +31,7 @@ class ActionRechercher extends Action {
                 <div class="touits_box_body">';
             foreach ($resultat as $touit) {
                 $t = new Touit($touit['idMessage'], $touit['texte'], $touit['date_publication'], $touit['email'], $touit['cheminFichier'], $touit['Likes'], $touit['Note']);
-                $res .= new TouitRenderer($t)->render();
+                $res .= (new TouitRenderer($t))->render();
             }
             $res .= '</div></article>';
             // AFFICHAGE DES TOUITOS
@@ -43,7 +43,7 @@ class ActionRechercher extends Action {
                 <div class="touitoss_box_body">';
             foreach ($resultat as $user) {
                 $u = new Utilisateur($user['email'], $user['nom'], $user['prenom'], $user['nombre_touites']);
-                $res .= new UtilisateurRenderer($u)->render();
+                $res .= (new UtilisateurRenderer($u))->render();
             }
             $res .= '</div></article>';
             // AFFICHAGE DES TAGS
@@ -55,7 +55,7 @@ class ActionRechercher extends Action {
                 <div class="tags_box_body">';
             foreach ($resultat as $tag) {
                 $t = new Tag($tag['idTag'], $tag['libelle'], $tag['description']);
-                $res .= new TagRenderer($t)->render();
+                $res .= (new TagRenderer($t))->render();
             }
             $res .= '</div></article>';
         }
