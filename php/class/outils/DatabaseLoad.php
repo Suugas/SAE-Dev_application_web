@@ -139,8 +139,6 @@ class DatabaseLoad {
         $stmt->execute($params);
         return true;
     }
-
-<<<<<<< HEAD
     public function rechercherTouit(string $texte): array
 {
     $query = "SELECT t.idMessage, t.texte, t.date_publication, t.email, u.nom, u.prenom, t.cheminFichier, t.Likes, t.Note
