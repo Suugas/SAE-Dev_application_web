@@ -17,6 +17,7 @@ DatabaseLoad::setConfig(__DIR__ . '/../../db.config.ini');
 define('BASE_URL', rtrim(dirname($_SERVER['SCRIPT_NAME'], 3), '/'));
 
 $router = new Router();
+session_start();
 
 try {
     $contenu = $router->run();

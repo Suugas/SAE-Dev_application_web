@@ -15,15 +15,15 @@ class ActionAjouterUtilisateur extends Action{
                 <button type="submit">Connection</button>
             </form>
         </div>';
-        if($this->http_method ==='POST'){
-                $db = DatabaseLoad::getInstance();
-                $user = $db->getUser($_POST['email']);
-                if(count($user)<1){
-                    $db->addUser($_POST['email'],$_POST['nom'],$_POST['prenom']);
-                    $valid = "<p> Connection effectuée</p>";
-                    $s = $s.$valid;
-                    $_SESSION['email'] = $_POST['email'];
-                }
+        if($this->http_method === 'POST'){
+            $db = DatabaseLoad::getInstance();
+            $user = $db->getUser($_POST['email']);
+            if($user === false){
+                $db->addUser($_POST['email'], $_POST['nom'], $_POST['prenom']);
+                $valid = "<p> Connection effectuée</p>";
+                $s = $s . $valid;
+                $_SESSION['email'] = $_POST['email'];
+            }
         }
 
         return $s;

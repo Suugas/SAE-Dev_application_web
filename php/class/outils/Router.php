@@ -91,6 +91,9 @@ class Router
                         <nav>
                             <a href="?action=search">Rechercher</a>
                         </nav>
+                        <nav>
+                            <a href="?action=ajouterUtilisateur">Connexion</a>
+                        </nav>
                     </header>
 
                     <main>'. $page.

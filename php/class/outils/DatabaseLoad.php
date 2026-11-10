@@ -80,7 +80,7 @@ class DatabaseLoad {
     }
 
     //getUtilisateur
-    public function getUser(string $email): array
+    public function getUser(string $email): array|false
     {
         $query = "Select * from utilisateur where email = :email";
         $stmt = $this->pdo->prepare($query);
@@ -144,7 +144,7 @@ class DatabaseLoad {
 {
     $query = "SELECT t.idMessage, t.texte, t.date_publication, t.email, u.nom, u.prenom, t.cheminFichier, t.Likes, t.Note
               FROM touite AS t
-              JOIN utilisateur AS u 
+              JOIN utilisateur AS u
               ON u.email = t.email
               LEFT JOIN touite_tag as tg
               ON tg.idMessage = t.idMessage
@@ -175,7 +175,7 @@ class DatabaseLoad {
 
     public function rechercherTag(string $texte): array{
         $query = "SELECT idTag, libelle, description
-                    FROM tag 
+                    FROM tag
                     WHERE libelle like :texte or description like :texte
                     limit 10;";
         $stmt = $this->pdo->prepare($query);
