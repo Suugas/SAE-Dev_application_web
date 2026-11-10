@@ -201,7 +201,7 @@ class DatabaseLoad {
 
     public function addTag(string $libelle) : void{
         $description = "";
-        $query = "INSERT into tag(idTag, libelle, description) values(:libelle, :description);";
+        $query = "INSERT into tag(libelle, description) values(:libelle, :description);";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['libelle'=>$libelle, 'description'=>$description]);
     }
