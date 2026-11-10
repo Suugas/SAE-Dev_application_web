@@ -183,6 +183,23 @@ class DatabaseLoad {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function addImage(string $lien, string $description){
+        $query = 'INSERT INTO image VALUE(:lien, :description);';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['lien'=> $lien,'description'=> $description]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getImage(string $lien): array{
+        $query = "SELECT *
+            FROM image 
+            WHERE cheminFichier like :lien;";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(["lien"=> $lien]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+
 
 
 

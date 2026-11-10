@@ -16,7 +16,7 @@ class TouitRenderer implements Renderer{
         if (!empty($this->touit->cheminFichier)) {
             $imageHtml = '
                 <div class="touit__media">
-                    <img src="' . BASE_URL . '/' . htmlspecialchars($this->touit->cheminFichier) . '" alt="Image du touit" class="touit__image">
+                    <img src="' . htmlspecialchars($this->touit->cheminFichier) . '" alt="Image du touit" class="touit__image">
                 </div>';
         }
 

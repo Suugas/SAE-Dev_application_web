@@ -20,6 +20,10 @@ class ActionAddTouit extends Action {
             <form method="post" action="?action=addTouit">
                 <textarea name="contenu" rows="4" cols="50" placeholder="Quoi de neuf ?" required></textarea>
                 <br>
+                <p>Pour l'image :</p>
+                <textarea name="lien_image" rows="1" cols="50" placeholder="image.png"></textarea>
+                <textarea name="description_image" rows="3" cols="50" placeholder="description de l'image"></textarea>
+                <br>
                 <button type="submit">Publier</button>
             </form>
             HTML;
@@ -28,6 +32,7 @@ class ActionAddTouit extends Action {
     private function publier(): string {
         $this->extraireTag();
         $texte = trim($_POST['contenu'] ?? '');
+        $lienImage = trim($_POST['lien_image'] ?? null);
 
         if ($texte === '' || mb_strlen($texte) > 235) {
             return $this->formulaire('Message invalide (vide ou plus de 235 caractères).');
@@ -37,7 +42,12 @@ class ActionAddTouit extends Action {
         $email = $_SESSION['email'];
 
         try {
-            DatabaseLoad::getInstance()->addTouit($texte, $email, null);
+            if ($lienImage !== null) {
+                if (count(DatabaseLoad::getInstance()->getImage($lienImage)) == 0){
+                    DatabaseLoad::getInstance()->addImage($lienImage, $_POST["description_image"]);
+                }
+            }
+            DatabaseLoad::getInstance()->addTouit($texte, $email, $lienImage);
         } catch (\Exception $e) {
             return $this->formulaire("Erreur : " . htmlspecialchars($e->getMessage()));
         }
