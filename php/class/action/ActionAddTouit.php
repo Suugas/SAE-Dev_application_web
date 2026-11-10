@@ -26,6 +26,7 @@ class ActionAddTouit extends Action {
     }
 
     private function publier(): string {
+        $this->extraireTag();
         $texte = trim($_POST['contenu'] ?? '');
 
         if ($texte === '' || mb_strlen($texte) > 235) {
