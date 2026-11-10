@@ -52,8 +52,8 @@ class ActionAddTouit extends Action {
         $count = 0;
         foreach($decoupage as $tag){
             if($count>0){
-                $existance = count($db->getTag($tag))>0;
-                if($existance ===false){
+                $existance = $db->getTag($tag);
+                if($existance === false){
                     $db->addTag($tag);
                 }
                 $connexion = $db->getTag($tag);
