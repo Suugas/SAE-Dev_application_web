@@ -1,64 +1,206 @@
+/* Thème Touiteur inspiré de rule34.xxx (capture fournie) :
+   fond vert pastel sur toute la page, titre et liens bleu marine,
+   menu en grand, onglet actif vert foncé + texte blanc,
+   barre secondaire vert foncé, champs blancs à bordure noire. */
+
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f5f8fa;
-    color: #14171a;
+    font-family: Verdana, Tahoma, Arial, sans-serif;
+    font-size: 14px;
+    background: #aae5a4;
+    color: #000000;
 }
 
+a {
+    color: #000099;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #000000;
+    text-decoration: underline;
+}
+
+/* ---------- En-tête : titre puis menu en dessous ---------- */
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    background: #1da1f2;
-    color: white;
+    display: block;
+    padding: 8px 20px 0;
+    background: #aae5a4;
 }
 
 header h1 {
-    font-size: 24px;
+    margin: 0 0 6px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #000099;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -13px;
+    padding-bottom: 6px;
 }
 
 nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
+    padding: 3px 13px;
+    font-size: 20px;
+    font-weight: normal;
+    color: #000099;
 }
 
 nav a:hover {
     text-decoration: underline;
+    color: #000000;
 }
 
+/* Onglet de la page courante : <a class="active"> */
+nav a.active,
+nav a[aria-current="page"] {
+    background: #93c393;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* Barre secondaire (optionnelle) : <nav class="subnav"> */
+.subnav {
+    margin: 0;
+    padding: 0 20px;
+    background: #93c393;
+}
+
+.subnav a {
+    padding: 5px 17px 5px 0;
+    font-size: 16px;
+}
+
+/* ---------- Contenu : directement sur le fond vert ---------- */
 main {
-    max-width: 600px;
-    margin: 30px auto;
-    padding: 20px;
-    background: white;
-    border-radius: 8px;
+    max-width: 720px;
+    margin: 20px auto;
+    padding: 0 20px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
 }
 
+label {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+}
+
+/* Disposition avec colonne latérale (optionnelle) */
+.layout {
+    display: flex;
+    gap: 40px;
+    padding: 20px;
+}
+
+.sidebar {
+    flex: 0 0 225px;
+}
+
+/* ---------- Formulaires ---------- */
+input[type="text"],
+input[type="search"],
 textarea {
     width: 100%;
     box-sizing: border-box;
-    padding: 10px;
-    font-family: inherit;
-    font-size: 16px;
-    border: 1px solid #ccd6dd;
-    border-radius: 8px;
+    padding: 2px 4px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 0;
+}
+
+textarea {
+    padding: 6px;
     resize: vertical;
 }
 
 button {
-    margin-top: 10px;
-    padding: 8px 20px;
+    margin-top: 4px;
+    padding: 2px 12px;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
-    font-weight: bold;
-    color: white;
-    background: #1da1f2;
-    border: none;
-    border-radius: 20px;
+    font-weight: normal;
+    color: #000000;
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 0;
     cursor: pointer;
 }
 
 button:hover {
-    background: #0d8ddb;
+    background: #e4f6e1;
+}
+
+/* ---------- Cartes de touits ---------- */
+.touit-card {
+    margin: 8px 0;
+    padding: 8px;
+    background: #f4fbf3;
+    border: 1px solid #7aa87a;
+}
+
+.touit__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    font-size: 12px;
+}
+
+.touit__author {
+    font-weight: bold;
+    color: #000099;
+}
+
+.touit__date {
+    color: #3f6b3f;
+}
+
+.touit__image {
+    max-width: 100%;
+    border: 1px solid #000000;
+}
+
+.touit__footer {
+    display: flex;
+    gap: 14px;
+    margin-top: 6px;
+    font-size: 12px;
+}
+
+.btn-like {
+    margin: 0;
+    padding: 0 6px;
+    font-size: 14px;
+}
+
+/* ---------- Résultats de recherche ---------- */
+.touits_box,
+.touitos_box,
+.tags_box {
+    margin-top: 14px;
+    background: #f4fbf3;
+    border: 1px solid #7aa87a;
+}
+
+.touits_box_header,
+.touitos_box_header,
+.tags_box_header {
+    padding: 3px 8px;
+    background: #93c393;
+    font-weight: bold;
+    color: #000099;
+}
+
+.touits_box_body,
+.touitos_box_body,
+.touitoss_box_body,
+.tags_box_body {
+    padding: 6px 8px;
 }

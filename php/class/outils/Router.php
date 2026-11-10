@@ -72,37 +72,40 @@ class Router
     return $this->renderPage($action);
 }
 
-    private function renderPage(string $page): string{
-        $profil = (isset($_SESSION['email']) ? '<a href="?action=user&email='. $_SESSION['email'] .'">Profil</a>' : '<a href="?action=ajouterUtilisateur">Connexion</a>');
-        $addTouit = (isset($_SESSION['email']) ? '<a href="?action=addTouit">Publier</a>' : '');
-        return ('
-            <!DOCTYPE html>
-            <html lang="fr">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Touiteur</title>
-                    <link rel="stylesheet" href="' . BASE_URL . '/css/style.css">
-                </head>
-                <body>
-                    <header>
-                        <h1><a href="?">Touiteur</a></h1>
-                        <nav>'.
-                            $addTouit
-                        .'</nav>
-                        <nav>
-                            <a href="?action=search">Rechercher</a>
-                        </nav>
-                        <nav>'.
-                            $profil
-                        .'</nav>
-                    </header>
-
-                    <main>'. $page.
-                    '</main>
-                </body>
-            </html>
-            ');
+    private function renderPage(string $page): string
+{
+    $liens = '';
+    if (isset($_SESSION['email'])) {
+        $liens .= '<a href="?action=addTouit">Publier</a>';
     }
+    $liens .= '<a href="?action=search">Rechercher</a>';
+    if (isset($_SESSION['email'])) {
+        $email = htmlspecialchars(urlencode($_SESSION['email']));
+        $liens .= '<a href="?action=user&amp;email=' . $email . '">Profil</a>';
+    } else {
+        $liens .= '<a href="?action=ajouterUtilisateur">Connexion</a>';
+    }
+
+    return ('
+        <!DOCTYPE html>
+        <html lang="fr">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Touiteur</title>
+                <link rel="stylesheet" href="' . BASE_URL . '/css/style.css">
+                <link rel="icon" type="image/png" href="' . BASE_URL . '/icon.png">
+            </head>
+            <body>
+                <header>
+                    <h1><a href="?">Touiteur</a><img src="' . BASE_URL . '/icon.png" alt="" class="logo"></h1>
+                    <nav>' . $liens . '</nav>
+                </header>
+
+                <main>' . $page . '</main>
+            </body>
+        </html>
+    ');
+}
 
 }
