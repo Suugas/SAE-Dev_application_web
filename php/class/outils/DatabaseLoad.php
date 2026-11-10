@@ -140,6 +140,7 @@ class DatabaseLoad {
         return true;
     }
 
+<<<<<<< HEAD
     public function rechercherTouit(string $texte): array
 {
     $query = "SELECT t.idMessage, t.texte, t.date_publication, t.email, u.nom, u.prenom, t.cheminFichier, t.Likes, t.Note
@@ -193,7 +194,7 @@ class DatabaseLoad {
 
 
     // Recuperer followers et followed
-    public function getTag(int $libelleTag):array|false{
+    public function getTag(string $libelleTag):array|false{
         $query = "SELECT idTag, libelle from tag where libelle = :libelle";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(["libelle"=>$libelleTag]);
