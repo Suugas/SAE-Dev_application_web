@@ -193,9 +193,8 @@ class DatabaseLoad {
 
 
     // Recuperer followers et followed
-
-    public function getTag(string $libelleTag):array{
-        $query = "SELECT idTag, libelle, description from tag where libelle = :libelle";
+    public function getTag(int $libelleTag):array|false{
+        $query = "SELECT idTag, libelle from tag where libelle = :libelle";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(["libelle"=>$libelleTag]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
