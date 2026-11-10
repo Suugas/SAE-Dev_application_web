@@ -73,6 +73,8 @@ class Router
 }
 
     private function renderPage(string $page): string{
+        $profil = (isset($_SESSION['email']) ? '<a href="?action=user&email='. $_SESSION['email'] .'">Profil</a>' : '<a href="?action=ajouterUtilisateur">Connexion</a>');
+        $addTouit = (isset($_SESSION['email']) ? '<a href="?action=addTouit">Publier</a>' : '');
         return ('
             <!DOCTYPE html>
             <html lang="fr">
@@ -85,15 +87,15 @@ class Router
                 <body>
                     <header>
                         <h1><a href="?">Touiteur</a></h1>
-                        <nav>
-                            <a href="?action=addTouit">Publier</a>
-                        </nav>
+                        <nav>'.
+                            $addTouit
+                        .'</nav>
                         <nav>
                             <a href="?action=search">Rechercher</a>
                         </nav>
-                        <nav>
-                            <a href="?action=ajouterUtilisateur">Connexion</a>
-                        </nav>
+                        <nav>'.
+                            $profil
+                        .'</nav>
                     </header>
 
                     <main>'. $page.
