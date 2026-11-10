@@ -34,7 +34,7 @@ class ActionAddTouit extends Action {
         }
 
         // a changer vu qu'on a pas encore de mail
-        $email = 'test@test.fr';
+        $email = $_SESSION['email'];
 
         try {
             DatabaseLoad::getInstance()->addTouit($texte, $email, null);
