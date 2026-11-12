@@ -204,3 +204,14 @@ button:hover {
 .tags_box_body {
     padding: 6px 8px;
 }
+
+header h1 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo {
+    height: 32px;
+    width: auto;
+}
