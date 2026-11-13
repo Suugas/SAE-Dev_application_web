@@ -209,7 +209,25 @@ class DatabaseLoad {
         $stmt->execute(["lien"=> $lien]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
+    public function getMurUser(string $email, int $page): array{
+        $offset = 50* $page;
+        $query = "SELECT t.idMessage, t.texte, t.date_publication, t.email, t.cheminFichier, t.Likes, t.Note
+            FROM touite as t
+            WHERE t.email IN (SELECT email_suivi FROM suivre WHERE email_suiveur = :email)
+                 OR t.idMessage IN (SELECT tt.idMessage
+                                    FROM touite_tag AS tt
+                                    JOIN utilisateur_tag AS ut ON ut.idTag = tt.idTag
+                                    WHERE ut.email = :email)
+            ORDER BY t.date_publication DESC
+            limit 10 offset :offset;
+            ";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
 

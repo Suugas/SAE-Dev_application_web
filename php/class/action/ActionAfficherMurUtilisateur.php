@@ -15,7 +15,7 @@ class ActionAfficherMurUtilisateur extends Action{
         $emailUser = $_GET["email"];
         $nPage = $_GET["page"] ?? 0;
         // A CHANGER
-        $touits = DatabaseLoad::getInstance()->getTouitesUtilisateur($nPage, $emailUser);
+        $touits = DatabaseLoad::getInstance()->getMurUser($emailUser, $nPage);
         $user = DatabaseLoad::getInstance()->getUser($emailUser);
         $utilisateurRenderer = new UtilisateurRenderer(
             new Utilisateur(
@@ -24,7 +24,11 @@ class ActionAfficherMurUtilisateur extends Action{
                 $user["prenom"],
                 $user["nombre_touites"],
                 ));
+        $bouton_follow = ($_SESSION['email'] == $emailUser ? '' :
+            '
 
+            '
+        );
         $res = '
             <article class="tag_box">
                 <header class="tag_box_header">
@@ -32,8 +36,9 @@ class ActionAfficherMurUtilisateur extends Action{
                 </header>
                 <div class="tag_box_body">
                     <p>'. $user["nom"] .' '. $user["prenom"] .'</p>
-                </div>
-            </article>
+                </div>'.
+                $bouton_follow
+            .'</article>
         ';
         foreach ($touits as $tou) {
             $res .= new TouitRenderer(
