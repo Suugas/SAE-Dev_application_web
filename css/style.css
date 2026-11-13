@@ -140,10 +140,57 @@ button:hover {
 
 /* ---------- Cartes de touits ---------- */
 .touit-card {
+    position: relative;
     margin: 8px 0;
     padding: 8px;
     background: #f4fbf3;
     border: 1px solid #7aa87a;
+}
+
+.touit__detail-link {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.touit__detail-link:focus-visible {
+    outline: 3px solid #000099;
+    outline-offset: 2px;
+}
+
+.touit-card__interactive {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.touit-card__interactive a,
+.touit-card__interactive button {
+    position: relative;
+    pointer-events: auto;
+}
+
+.touit-card--detail {
+    margin-top: 12px;
+    padding: 16px;
+}
+
+.touit-card--detail .touit__text {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.touit-card--detail .touit__image {
+    max-height: 70vh;
+}
+
+.touit-detail__back {
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.touit-message--error {
+    color: #8b0000;
 }
 
 .touit__header {
