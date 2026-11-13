@@ -5,11 +5,11 @@ namespace touiteur\class\outils;
 use touiteur\class\action\ActionAddTouit;
 use touiteur\class\action\ActionAfficherMurTag;
 use touiteur\class\action\ActionAfficherMurUtilisateur;
-use touiteur\class\action\ActionAfficherTouit;
+use touiteur\class\action\ActionFollowTag;
 use touiteur\class\action\ActionForYouPage;
 use touiteur\class\action\ActionLikerTouit;
 use touiteur\class\action\ActionRechercher;
-use touiteur\class\action\ActionUtilisateur;
+use touiteur\class\action\ActionFollow;
 use touiteur\class\outils;
 use touiteur\class\action\ActionTagDescription;
 use touiteur\class\action\ActionAjouterUtilisateur;
@@ -56,10 +56,6 @@ class Router
             $user = new ActionAfficherMurUtilisateur();
             $action = $user->execute();
             break;
-        case 'touit':
-            $touit = new ActionAfficherTouit();
-            $action = $touit->execute();
-            break;
         case 'search':
             $search = new ActionRechercher();
             $action = $search->execute();
@@ -67,6 +63,14 @@ class Router
         case 'tag':
             $tag = new ActionAfficherMurTag();
             $action = $tag->execute();
+            break;
+        case 'follow':
+            $follow = new ActionFollow();
+            $action = $follow->execute();
+            break;
+        case 'follow_tag':
+            $follow = new ActionFollowTag();
+            $action = $follow->execute();
             break;
         default:
             $fyp = new ActionForYouPage();
