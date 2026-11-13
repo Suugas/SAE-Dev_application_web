@@ -5,6 +5,7 @@ namespace touiteur\class\outils;
 use touiteur\class\action\ActionAddTouit;
 use touiteur\class\action\ActionAfficherMurTag;
 use touiteur\class\action\ActionAfficherMurUtilisateur;
+use touiteur\class\action\ActionAfficherTouit;
 use touiteur\class\action\ActionForYouPage;
 use touiteur\class\action\ActionLikerTouit;
 use touiteur\class\action\ActionRechercher;
@@ -54,6 +55,10 @@ class Router
             //$user = new ActionUtilisateur();
             $user = new ActionAfficherMurUtilisateur();
             $action = $user->execute();
+            break;
+        case 'touit':
+            $touit = new ActionAfficherTouit();
+            $action = $touit->execute();
             break;
         case 'search':
             $search = new ActionRechercher();

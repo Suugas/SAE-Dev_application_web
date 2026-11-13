@@ -55,6 +55,17 @@ class DatabaseLoad {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    public function getTouite(int $idMessage): array|false
+    {
+        $query = "SELECT idMessage, texte, date_publication, email, cheminFichier, Likes, Note
+                  FROM touite
+                  WHERE idMessage = :idMessage";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['idMessage' => $idMessage]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     //recuprer touite utilisateur
     public function getTouitesUtilisateur(int $page, string $email): array
     {
