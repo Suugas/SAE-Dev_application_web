@@ -12,10 +12,12 @@ use touiteur\class\affichage\TagRenderer;
 
 class ActionAfficherMurUtilisateur extends Action{
     public function execute(): string{
+        $res = '';
         $emailUser = $_GET["email"];
+        $session = $_SESSION["email"] ?? '';
         $nPage = $_GET["page"] ?? 0;
-        // A CHANGER
         $touits = DatabaseLoad::getInstance()->getMurUser($emailUser, $nPage);
+        $touitsUser = DatabaseLoad::getInstance()->getTouitesUtilisateur($nPage, $emailUser);
         $user = DatabaseLoad::getInstance()->getUser($emailUser);
         $utilisateurRenderer = new UtilisateurRenderer(
             new Utilisateur(
@@ -24,12 +26,28 @@ class ActionAfficherMurUtilisateur extends Action{
                 $user["prenom"],
                 $user["nombre_touites"],
                 ));
-        $bouton_follow = ($_SESSION['email'] == $emailUser ? '' :
-            '
 
-            '
-        );
-        $res = '
+        // GESTION DU FOLLOW
+        $can_follow = $session !== '' && $session !== $emailUser;
+        $bouton_follow = '';
+
+        if ($can_follow && $this->http_method == 'POST' && isset($_POST['email'])) {
+            DatabaseLoad::getInstance()->follow($session, $emailUser);
+            header('Location: ?action=user&email=' . urlencode($emailUser));
+            exit;
+        }
+
+        if ($can_follow) {
+            $libelle = (DatabaseLoad::getInstance()->isFollowed($session, $emailUser)) ? 'UNFOLLOW' : 'FOLLOW';
+            $bouton_follow = '
+                <form method="post" action="?action=follow&email='. htmlspecialchars(urldecode($emailUser)).'">
+                    <button type="submit" name="follow" value="'. $emailUser .'">'. $libelle .'</button>
+                </form>
+                ';
+        }
+
+        // AFFICHAGE DU PROFILE
+        $res .= '
             <article class="tag_box">
                 <header class="tag_box_header">
                     <h1>'. $user["email"] .'</h1>
@@ -40,7 +58,23 @@ class ActionAfficherMurUtilisateur extends Action{
                 $bouton_follow
             .'</article>
         ';
+
+        // AFFICHAGE DES TOUITES
         foreach ($touits as $tou) {
+            $res .= new TouitRenderer(
+                new Touit(
+                    $tou["idMessage"],
+                    $tou["texte"],
+                    $tou["date_publication"],
+                    $tou["email"],
+                    $tou["cheminFichier"],
+                    $tou["Likes"],
+                    $tou["Note"]
+                    ))->render();
+        }
+
+        $res .= "<h1> Touites de l'utilisateur</h1>";
+        foreach ($touitsUser as $tou) {
             $res .= new TouitRenderer(
                 new Touit(
                     $tou["idMessage"],

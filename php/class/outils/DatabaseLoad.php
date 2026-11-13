@@ -107,7 +107,8 @@ class DatabaseLoad {
                 values(:follower, :followed)");
                 $stmt->execute(['follower'=>$follower, 'followed'=>$followed]);
         }
-    }    public function addTouit(string $texte, string $email, ?string $cheminFichier)
+    }
+    public function addTouit(string $texte, string $email, ?string $cheminFichier)
     {
         $query = "INSERT INTO touite (texte, date_publication, email, cheminFichier)
         VALUES (:texte, NOW(), :email, :cheminFichier);";
@@ -151,6 +152,8 @@ class DatabaseLoad {
               ON tag.idTag = tg.idTag
               WHERE t.texte LIKE :texte
               OR u.nom LIKE :texte
+              OR u.prenom LIKE :texte
+              OR t.email LIKE :texte
               OR tag.libelle LIKE :texte
               ORDER BY t.date_publication DESC
               LIMIT 20;";
@@ -218,6 +221,17 @@ class DatabaseLoad {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function isFollowed(string $emailFollower, string $emailFollow): bool{
+        $query = 'SELECT *
+                FROM suivre
+                WHERE email_suiveur = :emailFollower
+                AND email_suivi = :emailFollow;
+                ';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['emailFollower'=> $emailFollower,'emailFollow'=> $emailFollow]);
+        return count($stmt->fetchAll(PDO::FETCH_ASSOC)) == 1;
+    }
+
 
 
 
@@ -256,7 +270,7 @@ class DatabaseLoad {
             JOIN tag
             on tag.idTag = tg.idTag
             where tag.libelle like :libelle
-            Order by date_publication
+            Order by t.date_publication
             limit 50 offset :offset;";
         $stmt = $this->pdo->prepare($query);
 
@@ -282,8 +296,30 @@ class DatabaseLoad {
         return (int)$stmt->fetch(PDO::FETCH_ASSOC)['max'];
     }
 
-    // recuperer tag follow
-    // Recuperer 1 touite
-    //
+    public function followTag(string $email, int $idTag) : void{
+        $query = '';
+        if ($this->isTagFollowed($email, $idTag)) {
+            $query = 'DELETE from utilisateur_tag 
+                        where email = :email 
+                        and idTag = :idTag;';
+        } else {
+            $query = "INSERT INTO utilisateur_tag 
+                    VALUE(:email, :idTag);
+                    ";
+        }
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['email'=>$email, 'idTag'=>$idTag]);
+    }
+
+    public function isTagFollowed(string $emailFollower, int $idTag): bool{
+        $query = 'SELECT *
+                FROM utilisateur_tag
+                WHERE email = :emailFollower
+                AND idTag = :idTag;
+                ';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['emailFollower'=> $emailFollower,'idTag'=> $idTag]);
+        return count($stmt->fetchAll(PDO::FETCH_ASSOC)) == 1;
+    }
 
 }

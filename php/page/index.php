@@ -11,13 +11,14 @@ use touiteur\class\outils\DatabaseLoad;
 use touiteur\class\outils\Router;
 use touiteur\class\outils\RouterException;
 
+session_start();
+
 DatabaseLoad::setConfig(__DIR__ . '/../../db.config.ini');
 
 // Racine web du projet, quel que soit le nom du dossier (ex : /SAE-Dev_application_web)
 define('BASE_URL', rtrim(dirname($_SERVER['SCRIPT_NAME'], 3), '/'));
 
 $router = new Router();
-session_start();
 
 try {
     $contenu = $router->run();
