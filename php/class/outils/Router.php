@@ -5,6 +5,7 @@ namespace touiteur\class\outils;
 use touiteur\class\action\ActionAddTouit;
 use touiteur\class\action\ActionAfficherMurTag;
 use touiteur\class\action\ActionAfficherMurUtilisateur;
+use touiteur\class\action\ActionAfficherTouit;
 use touiteur\class\action\ActionFollowTag;
 use touiteur\class\action\ActionForYouPage;
 use touiteur\class\action\ActionLikerTouit;
@@ -77,6 +78,10 @@ class Router
         case 'influenceurs':
             $influenceurs = new ActionAffichageInfluenceur();
             $action = $influenceurs->execute();
+            break;
+        case 'touit':
+            $touit = new ActionAfficherTouit();
+            $action = $touit->execute();
             break;
         default:
             $fyp = new ActionForYouPage();
