@@ -14,7 +14,7 @@ class TagRenderer implements Renderer{
         $res = <<<HTML
             <article class="tag_box">
                 <header class="tag_box_header">
-                    <span>{$this->tag->nom}</span>
+                    <span><a href="?action=tag&libelle={$this->tag->nom}">{$this->tag->nom}</a></span>
                 </header>
                 <div class="tag_box_body">
                     <p class="tag_box_description">

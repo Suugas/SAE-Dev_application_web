@@ -21,6 +21,7 @@ class ActionAffichageInfluenceur extends Action{
                 $row['nombre_touites'],
             );
             $res .= (new UtilisateurRenderer($user))->render();
+            $res .= '<p>followers :'. $row["follower"];
         }
 
         $res .= '</div>';

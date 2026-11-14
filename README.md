@@ -21,12 +21,7 @@ Pour admin :
 - Les tendances ⏳
 - Le back-office⏳
 
-Importer la base de donnée sur phpMyAdmin et créer un .ini à mettre à la racine du projet avec la configuration suivante:
-host = 
-database = pool34
-user = 
-password = 
-port =
+Compte admin : admin@touiteur.fr
 
 Lien vers le git: https://github.com/Suugas/SAE-Dev_application_web
 
