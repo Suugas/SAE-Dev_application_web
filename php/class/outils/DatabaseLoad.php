@@ -243,6 +243,21 @@ class DatabaseLoad {
         return count($stmt->fetchAll(PDO::FETCH_ASSOC)) == 1;
     }
 
+    public function getInfluenceur(int $page) : array{
+        $offset = 20* $page;
+        $query = 'SELECT email, nom, prenom, nombre_touites, COUNT(s.email_suiveur) as follower
+                    FROM utilisateur AS u
+                    JOIN suivre AS s
+                    ON u.email = s.email_suivi
+                    GROUP BY u.email
+                    ORDER BY follower
+                    limit 20 offset :offset;';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindValue(':offset',  $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
 
 

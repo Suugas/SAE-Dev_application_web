@@ -10,6 +10,8 @@ use touiteur\class\action\ActionForYouPage;
 use touiteur\class\action\ActionLikerTouit;
 use touiteur\class\action\ActionRechercher;
 use touiteur\class\action\ActionFollow;
+use touiteur\class\objets\Utilisateur;
+use touiteur\class\action\ActionAffichageInfluenceur;
 use touiteur\class\outils;
 use touiteur\class\action\ActionTagDescription;
 use touiteur\class\action\ActionAjouterUtilisateur;
@@ -72,6 +74,10 @@ class Router
             $follow = new ActionFollowTag();
             $action = $follow->execute();
             break;
+        case 'influenceurs':
+            $influenceurs = new ActionAffichageInfluenceur();
+            $action = $influenceurs->execute();
+            break;
         default:
             $fyp = new ActionForYouPage();
             $action = $fyp->execute();
@@ -90,6 +96,9 @@ class Router
     $liens .= '<a href="?action=search">Rechercher</a>';
     if (isset($_SESSION['email'])) {
         $email = htmlspecialchars(urlencode($_SESSION['email']));
+        if (in_array($_SESSION['email'] , Utilisateur::admins)){
+            $liens .= '<a href="?action=influenceurs">Influenceurs</a>';
+        }
         $liens .= '<a href="?action=user&amp;email=' . $email . '">Profil</a>';
     } else {
         $liens .= '<a href="?action=ajouterUtilisateur">Connexion</a>';
