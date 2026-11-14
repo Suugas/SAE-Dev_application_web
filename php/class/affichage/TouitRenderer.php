@@ -21,6 +21,15 @@ class TouitRenderer implements Renderer{
                     <img src="' . htmlspecialchars($this->touit->cheminFichier) . '" alt="Image du touit" class="touit__image">
                 </div>';
         }
+        $tags = explode("#", $this->touit->texte);
+        $message = $tags[0];
+        $count = 0;
+        foreach($tags as $valeur){
+            if($count>0){
+                $message = $message."<a href='?action=tag&tag=".$valeur."'>#".$valeur."</a>";
+            }
+            $count++;
+        }
 
         // On retourne la structure HTML complète
         return '
@@ -32,7 +41,7 @@ class TouitRenderer implements Renderer{
                 </header>
 
                 <div class="touit__body touit-card__interactive">
-                    <p class="touit__text">' . nl2br(htmlspecialchars($this->touit->texte)) . '</p>
+                    <p class="touit__text">' . nl2br(htmlspecialchars($message)) . '</p>
                     ' . $imageHtml . '
                 </div>
 
