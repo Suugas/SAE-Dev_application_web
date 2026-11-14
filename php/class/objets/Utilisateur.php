@@ -8,7 +8,7 @@ class Utilisateur {
     public string $prenom;
     public int $nb_touites;
 
-    public const array admins = ['admin@touiteur.fr'];
+    public const admins = ['admin@touiteur.fr'];
 
     public function __construct(string $email, string $nom, string $prenom, ?int $nb_touites) {
         $this->email = $email;
