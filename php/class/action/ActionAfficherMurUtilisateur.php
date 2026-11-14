@@ -59,9 +59,8 @@ class ActionAfficherMurUtilisateur extends Action{
             .'</article>
         ';
 
-        // AFFICHAGE DES TOUITES
         foreach ($touits as $tou) {
-            $res .= new TouitRenderer(
+            $renderer = new TouitRenderer(
                 new Touit(
                     $tou["idMessage"],
                     $tou["texte"],
@@ -70,12 +69,14 @@ class ActionAfficherMurUtilisateur extends Action{
                     $tou["cheminFichier"],
                     $tou["Likes"],
                     $tou["Note"]
-                    ))->render();
+                )
+            );
+            $res .= $renderer->render();
         }
 
         $res .= "<h1> Touites de l'utilisateur</h1>";
         foreach ($touitsUser as $tou) {
-            $res .= new TouitRenderer(
+            $renderer = new TouitRenderer(
                 new Touit(
                     $tou["idMessage"],
                     $tou["texte"],
@@ -84,7 +85,9 @@ class ActionAfficherMurUtilisateur extends Action{
                     $tou["cheminFichier"],
                     $tou["Likes"],
                     $tou["Note"]
-                    ))->render();
+                )
+            );
+            $res .= $renderer->render();
         }
 
         return $res;
