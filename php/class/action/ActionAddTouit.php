@@ -30,47 +30,57 @@ class ActionAddTouit extends Action {
     }
 
     private function publier(): string {
-        $this->extraireTag();
         $texte = trim($_POST['contenu'] ?? '');
-        $lienImage = trim($_POST['lien_image'] ?? null);
+        $lienImage = trim($_POST['lien_image'] ?? '');
+        $descriptionImage = trim($_POST['description_image'] ?? '');
 
         if ($texte === '' || mb_strlen($texte) > 235) {
             return $this->formulaire('Message invalide (vide ou plus de 235 caractères).');
         }
+        // Image facultative : champ vide = pas d'image
+        if ($lienImage === '') {
+            $lienImage = null;
+        } else {
+            $urlValide = preg_match('#^https?://#i', $lienImage) && filter_var($lienImage, FILTER_VALIDATE_URL);
+            $fichierLocalValide = preg_match('#^[\w./-]+$#', $lienImage);
+            if ((!$urlValide && !$fichierLocalValide) || mb_strlen($lienImage) > 255) {
+                return $this->formulaire("Lien d'image invalide.");
+            }
+        }
 
-        // a changer vu qu'on a pas encore de mail
-        $email = $_SESSION['email'];
+        $email = $_SESSION['email'] ?? null;
+        if ($email === null) {
+            return $this->formulaire('Vous devez être connecté pour publier.');
+        }
 
         try {
-            if ($lienImage !== null) {
-                if (count(DatabaseLoad::getInstance()->getImage($lienImage)) == 0){
-                    DatabaseLoad::getInstance()->addImage($lienImage, $_POST["description_image"]);
-                }
+            $db = DatabaseLoad::getInstance();
+
+            if ($lienImage !== null && count($db->getImage($lienImage)) === 0) {
+                $db->addImage($lienImage, $descriptionImage);
             }
-            DatabaseLoad::getInstance()->addTouit($texte, $email, $lienImage);
+
+            $idMessage = $db->addTouit($texte, $email, $lienImage);
+            $this->extraireTag($texte, $idMessage);
         } catch (\Exception $e) {
-            return $this->formulaire("Erreur : " . htmlspecialchars($e->getMessage()));
+            return $this->formulaire('Erreur : ' . htmlspecialchars($e->getMessage()));
         }
 
         return $this->formulaire('Touit publié');
     }
 
-    public function extraireTag(): void{
+    private function extraireTag(string $texte, int $idMessage): void
+    {
         $db = DatabaseLoad::getInstance();
-        $texte = $_POST['contenu'];
-        $decoupage = explode("#", $texte);
-        $count = 0;
-        foreach($decoupage as $tag){
-            if($count>0){
-                $existance = $db->getTag($tag);
-                if($existance === false){
-                    $db->addTag($tag);
-                }
-                $connexion = $db->getTag($tag);
-                $lastMessage = $db->getLastTouite();
-                $db->addTagMessage($lastMessage, $connexion['idTag']);
+        preg_match_all('/#([\p{L}\p{N}_]+)/u', $texte, $m);
+
+        foreach (array_unique(array_map('mb_strtolower', $m[1])) as $libelle) {
+            $libelle = mb_substr($libelle, 0, 50);
+            if ($db->getTag($libelle) === false) {
+                $db->addTag($libelle);
             }
-            $count++;
+            $tag = $db->getTag($libelle);
+            $db->addTagMessage($idMessage, (int)$tag['idTag']);
         }
     }
 }
