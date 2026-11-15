@@ -1,33 +1,19 @@
 <?php
+
 namespace touiteur\class\objets;
-class Utilisateur
-{
+
+class Utilisateur {
+    public string $email;
     public string $nom;
-    public string $pp;
+    public string $prenom;
+    public int $nb_touites;
 
-    public function __construct(string $nom, string $pp){
+    public const admins = ['admin@touiteur.fr'];
+
+    public function __construct(string $email, string $nom, string $prenom, ?int $nb_touites) {
+        $this->email = $email;
         $this->nom = $nom;
-        $this->pp = $pp;
-    }
-
-    // Renvoie une liste des utilisateurs ayant follow ce profil
-    private function getFollowers(): array {
-        // Requete sql
-        return array();
-    }
-
-    // Renvoie une liste des utilisateurs que follow ce profil
-    private function getFollowed(): array
-    {
-        // Requete sql
-        return array();
-    }
-
-    public function to_html(): string{
-        return "";
-    }
-
-    public function affichage(): string {
-        return "Utilisateur : " . $this->nom;
+        $this->prenom = $prenom;
+        $this->nb_touites = $nb_touites ?? 0;
     }
 }

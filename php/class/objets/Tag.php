@@ -1,6 +1,6 @@
 <?php
 
-namespace objets;
+namespace touiteur\class\objets;
 
 class Tag
 {
@@ -8,14 +8,18 @@ class Tag
     public string $nom;
     public string $description;
 
-    public function __construct(int $id, string $nom, string $description){
+    public function __construct(int $id, string $nom, ?string $description){
         $this->id = $id;
         $this->nom = $nom;
-        $this->description = $description;
+        $this->description = $description ?? '';
     }
+<<<<<<< HEAD
 
     public function to_html():string
     {
         return "";
     }
+=======
+    ///
+>>>>>>> dev
 }

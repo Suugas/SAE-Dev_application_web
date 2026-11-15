@@ -8,5 +8,31 @@
         <h1>NOM</h1>
 
     </div>
+    <div class="touies">
+
+    </div>
+
+    <article class="touit-card" id="touit-' . $this->idMessage . '">
+                <header class="touit__header">
+                    <span class="touit__author">' . htmlspecialchars($this->email) . '</span>
+                    <span class="touit__date">' . htmlspecialchars($this->date_publication) . '</span>
+                </header>
+                
+                <div class="touit__body">
+                    <p class="touit__text">' . nl2br(htmlspecialchars($this->texte)) . '</p>
+                    ' . $imageHtml . '
+                </div>
+                
+                <footer class="touit__footer">
+                    <div class="touit__action touit__action--like">
+                        <button class="btn-like" data-id="' . $this->idMessage . '">❤️</button>
+                        <span class="count">' . $this->likes . '</span>
+                    </div>
+                    <div class="touit__action touit__action--note">
+                        <span class="icon-star">⭐</span>
+                        <span class="note-value">' . $this->note_moy . '/5</span>
+                    </div>
+                </footer>
+            </article>
 </body>
 </html>
