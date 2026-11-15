@@ -12,14 +12,9 @@ class Tag
         $this->id = $id;
         $this->nom = $nom;
         $this->description = $description ?? '';
-    }
-<<<<<<< HEAD
-
-    public function to_html():string
-    {
-        return "";
-    }
-=======
-    ///
->>>>>>> dev
-}
+            }
+            public function to_html(): string
+            {
+                return "";
+            }
+        }
