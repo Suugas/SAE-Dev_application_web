@@ -1,5 +1,8 @@
 GARNIER Ronan - CHATY Aloys - CORDONNIER Benjamin
 
+L'objectif du projet est de pouvoir poster et noter des messages et images sur un mur commun entre plusieurs utilisateurs.
+Les utilisateurs ont également la possibilité de se suivrent entre eux afin de voir les messages postés par les personnes qu'ils suivent
+
 Liste des features :
 - Afficher la liste touites - Aloys - Ronan
 - Afficher un touite en détail - Ronan
