@@ -115,13 +115,13 @@ class Router
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Touiteur</title>
+                <title>Pool34</title>
                 <link rel="stylesheet" href="' . BASE_URL . '/css/style.css">
-                <link rel="icon" type="image/png" href="' . BASE_URL . '/icon.png">
+                <link rel="icon" type="image/png" href="' . BASE_URL . '/icon2.png">
             </head>
             <body>
                 <header>
-                    <h1><a href="?">Touiteur</a><img src="' . BASE_URL . '/icon.png" alt="" class="logo"></h1>
+                    <h1><a href="?">Pool34</a><img src="' . BASE_URL . '/icon.png" alt="" class="logo"></h1>
                     <nav>' . $liens . '</nav>
                 </header>
 

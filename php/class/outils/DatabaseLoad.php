@@ -119,17 +119,18 @@ class DatabaseLoad {
                 $stmt->execute(['follower'=>$follower, 'followed'=>$followed]);
         }
     }
-    public function addTouit(string $texte, string $email, ?string $cheminFichier)
+    public function addTouit(string $texte, string $email, ?string $cheminFichier): int
     {
         $query = "INSERT INTO touite (texte, date_publication, email, cheminFichier)
-        VALUES (:texte, NOW(), :email, :cheminFichier);";
+                  VALUES (:texte, NOW(), :email, :cheminFichier);";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([
             'texte' => $texte,
             'email' => $email,
             'cheminFichier' => $cheminFichier,
         ]);
-    }
+        return (int)$this->pdo->lastInsertId();
+}
 
     // Renvoie true si le touit est maintenant liké, false s'il vient d'être unliké
     public function btnLike(string $email, int $idMessage): bool
