@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 03 nov. 2026 à 12:35
+-- Généré le : mar. 03 nov. 2026 à 15:40
 -- Version du serveur : 10.11.16-MariaDB
 -- Version de PHP : 8.5.12
 
@@ -30,6 +30,30 @@ SET time_zone = "+00:00";
 CREATE TABLE `image` (
   `cheminFichier` varchar(255) NOT NULL,
   `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `likes`
+--
+
+CREATE TABLE `likes` (
+  `email` varchar(255) NOT NULL,
+  `IdMessage` int(11) NOT NULL,
+  `Validation` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `notation`
+--
+
+CREATE TABLE `notation` (
+  `email` varchar(255) NOT NULL,
+  `IdMessage` int(11) NOT NULL,
+  `Note` int(11) DEFAULT NULL CHECK (`Note` > 0 and `Note` <= 6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -66,7 +90,9 @@ CREATE TABLE `touite` (
   `texte` varchar(235) NOT NULL,
   `date_publication` datetime NOT NULL,
   `email` varchar(255) NOT NULL,
-  `cheminFichier` varchar(255) DEFAULT NULL
+  `cheminFichier` varchar(255) DEFAULT NULL,
+  `Likes` int(11) NOT NULL DEFAULT 0,
+  `Note` decimal(2,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -115,6 +141,20 @@ ALTER TABLE `image`
   ADD PRIMARY KEY (`cheminFichier`);
 
 --
+-- Index pour la table `likes`
+--
+ALTER TABLE `likes`
+  ADD PRIMARY KEY (`email`,`IdMessage`),
+  ADD KEY `IdMessage` (`IdMessage`);
+
+--
+-- Index pour la table `notation`
+--
+ALTER TABLE `notation`
+  ADD PRIMARY KEY (`email`,`IdMessage`),
+  ADD KEY `IdMessage` (`IdMessage`);
+
+--
 -- Index pour la table `suivre`
 --
 ALTER TABLE `suivre`
@@ -159,6 +199,20 @@ ALTER TABLE `utilisateur_tag`
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `likes`
+--
+ALTER TABLE `likes`
+  ADD CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`email`) REFERENCES `utilisateur` (`email`),
+  ADD CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`IdMessage`) REFERENCES `touite` (`idMessage`);
+
+--
+-- Contraintes pour la table `notation`
+--
+ALTER TABLE `notation`
+  ADD CONSTRAINT `notation_ibfk_1` FOREIGN KEY (`email`) REFERENCES `utilisateur` (`email`),
+  ADD CONSTRAINT `notation_ibfk_2` FOREIGN KEY (`IdMessage`) REFERENCES `touite` (`idMessage`);
 
 --
 -- Contraintes pour la table `suivre`
