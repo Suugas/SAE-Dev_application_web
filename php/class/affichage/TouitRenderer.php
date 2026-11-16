@@ -45,8 +45,9 @@ class TouitRenderer implements Renderer{
                 <div class="touit__body touit-card__interactive">
                     <p class="touit__text">' . nl2br($message) . '</p>
                     ' . $imageHtml . '
-                </div>
+                </div>'.
 
+                /*
                 <footer class="touit__footer touit-card__interactive">
                     <div class="touit__action touit__action--like">
                         <button class="btn-like" data-id="' . $this->touit->idMessage . '">❤️</button>
@@ -57,7 +58,8 @@ class TouitRenderer implements Renderer{
                         <span class="note-value">' . $this->touit->note . '/5</span>
                     </div>
                 </footer>
-            </article>
+                */
+            '</article>
         ';
     }
 }
