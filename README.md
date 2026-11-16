@@ -23,4 +23,4 @@ Compte admin : admin@touiteur.fr
 
 Lien vers le git: https://github.com/Suugas/SAE-Dev_application_web
 
-Lien du webetu : https://webetu.iutnc.univ-lorraine.fr/~e94987u/SAE-Dev_application_web/
+Lien du webetu : https://webetu.iutnc.univ-lorraine.fr/~e11281u/SAE-Dev_app_web_secu/php/page/?
